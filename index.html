@@ -1,0 +1,5326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#05070b">
+<title>MOTIVITY | Engineering AV Suite</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --red:#e60012;
+  --blue:#38bdf8;
+  --bg:#05070b;
+  --panel:#0b111b;
+  --panel2:#101824;
+  --panel3:#141d2a;
+  --line:#1e2b3a;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --green:#22c55e;
+  --yellow:#f59e0b;
+  --danger:#ef4444;
+  --shadow:0 18px 60px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(56,189,248,.07),transparent 25%),
+    radial-gradient(circle at 90% 10%,rgba(230,0,18,.08),transparent 25%),
+    var(--bg);
+  color:var(--text);
+  font-family:"Cairo",Arial,sans-serif;
+  min-height:100vh;
+}
+
+button,
+input,
+select,
+textarea{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+::-webkit-scrollbar{
+  width:8px;
+  height:8px;
+}
+::-webkit-scrollbar-track{
+  background:#080d14;
+}
+::-webkit-scrollbar-thumb{
+  background:#253446;
+  border-radius:20px;
+}
+::-webkit-scrollbar-thumb:hover{
+  background:#33485f;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.sidebar{
+  position:fixed;
+  top:0;
+  right:0;
+  width:255px;
+  height:100vh;
+  background:
+    linear-gradient(180deg,#080c13,#05070b);
+  border-left:1px solid var(--line);
+  z-index:1000;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+}
+
+.brand{
+  padding:25px 20px 20px;
+  border-bottom:1px solid var(--line);
+}
+
+.brand-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-mark{
+  width:46px;
+  height:46px;
+  border-radius:13px;
+  background:
+    linear-gradient(145deg,var(--red),#90000c);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:21px;
+  box-shadow:0 10px 30px rgba(230,0,18,.25);
+}
+
+.brand-title{
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.brand-sub{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.nav{
+  padding:15px 11px;
+  flex:1;
+}
+
+.nav-section{
+  color:#53657b;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  padding:14px 12px 7px;
+}
+
+.nav button{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  border:0;
+  color:#aebdcd;
+  background:transparent;
+  padding:12px 13px;
+  border-radius:10px;
+  margin-bottom:4px;
+  text-align:right;
+  transition:.2s;
+}
+
+.nav button:hover{
+  background:#0f1824;
+  color:white;
+}
+
+.nav button.active{
+  color:#fff;
+  background:
+    linear-gradient(90deg,rgba(230,0,18,.16),rgba(56,189,248,.08));
+  border-right:3px solid var(--red);
+}
+
+.nav-icon{
+  width:28px;
+  text-align:center;
+  font-size:16px;
+}
+
+.sidebar-footer{
+  padding:15px;
+  border-top:1px solid var(--line);
+  color:#617286;
+  font-size:10px;
+  text-align:center;
+}
+
+.main{
+  margin-right:255px;
+  min-height:100vh;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:900;
+  height:70px;
+  padding:0 25px;
+  background:rgba(5,7,11,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.page-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.page-subtitle{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.btn{
+  border:1px solid var(--line);
+  background:#0c131d;
+  color:#dbe7f2;
+  border-radius:9px;
+  padding:9px 13px;
+  font-size:12px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.btn:hover{
+  border-color:#40546a;
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--red),#b0000e);
+  border-color:var(--red);
+  color:white;
+}
+
+.btn-blue{
+  background:rgba(56,189,248,.1);
+  border-color:rgba(56,189,248,.35);
+  color:#8edcff;
+}
+
+.btn-green{
+  background:rgba(34,197,94,.1);
+  border-color:rgba(34,197,94,.3);
+  color:#8af0aa;
+}
+
+.btn-danger{
+  background:rgba(239,68,68,.1);
+  border-color:rgba(239,68,68,.3);
+  color:#ff9a9a;
+}
+
+.page{
+  display:none;
+  padding:25px;
+}
+
+.page.active{
+  display:block;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card{
+  background:
+    linear-gradient(145deg,rgba(16,24,36,.96),rgba(9,14,22,.96));
+  border:1px solid var(--line);
+  border-radius:15px;
+  box-shadow:var(--shadow);
+}
+
+.card-header{
+  padding:17px 19px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.card-title{
+  font-size:15px;
+  font-weight:800;
+}
+
+.card-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:2px;
+}
+
+.card-body{
+  padding:19px;
+}
+
+/* =========================
+   HOME
+========================= */
+
+.hero{
+  min-height:330px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  background:
+    radial-gradient(circle at 15% 30%,rgba(56,189,248,.15),transparent 28%),
+    radial-gradient(circle at 85% 30%,rgba(230,0,18,.18),transparent 30%),
+    linear-gradient(135deg,#09111c,#070a10);
+  padding:38px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero:before,
+.hero:after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+
+.hero:before{
+  width:500px;
+  height:500px;
+  border:1px solid rgba(56,189,248,.08);
+  border-radius:50%;
+  left:-250px;
+  top:-120px;
+}
+
+.hero:after{
+  width:350px;
+  height:350px;
+  border:1px solid rgba(230,0,18,.08);
+  border-radius:50%;
+  right:-120px;
+  bottom:-180px;
+}
+
+.hero-content{
+  max-width:760px;
+  position:relative;
+  z-index:2;
+}
+
+.hero-kicker{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:20px;
+  border:1px solid rgba(56,189,248,.25);
+  color:#7dd3fc;
+  background:rgba(56,189,248,.06);
+  font-size:10px;
+  font-weight:800;
+  margin-bottom:14px;
+}
+
+.hero h1{
+  font-size:clamp(30px,4vw,56px);
+  line-height:1.05;
+  margin:0 0 14px;
+  font-weight:900;
+}
+
+.hero h1 span{
+  color:var(--red);
+}
+
+.hero p{
+  color:#a9b8c9;
+  line-height:1.9;
+  max-width:700px;
+  font-size:13px;
+}
+
+.hero-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:24px;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+
+.stat{
+  padding:18px;
+}
+
+.stat-number{
+  font-size:27px;
+  font-weight:900;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:18px;
+}
+
+.quick{
+  padding:19px;
+  min-height:145px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.quick:hover{
+  transform:translateY(-3px);
+  border-color:#34485d;
+}
+
+.quick-icon{
+  width:43px;
+  height:43px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:rgba(56,189,248,.09);
+  border:1px solid rgba(56,189,248,.18);
+  color:#7dd3fc;
+  font-size:19px;
+  margin-bottom:12px;
+}
+
+.quick h3{
+  font-size:14px;
+  margin:0 0 5px;
+}
+
+.quick p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+  margin:0;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  color:#9eafc1;
+  font-size:10px;
+  font-weight:700;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid var(--line);
+  background:#080e16;
+  color:white;
+  border-radius:8px;
+  padding:10px 11px;
+  outline:none;
+  font-size:12px;
+}
+
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(56,189,248,.06);
+}
+
+.form-actions{
+  margin-top:15px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* =========================
+   DESIGNER
+========================= */
+
+.designer-grid{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:17px;
+}
+
+.designer-left{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.design-output{
+  min-width:0;
+}
+
+.architecture{
+  padding:15px;
+  overflow:auto;
+}
+
+.arch-canvas{
+  min-width:850px;
+  min-height:500px;
+  border-radius:12px;
+  background:
+    linear-gradient(rgba(56,189,248,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,.025) 1px,transparent 1px),
+    #070c13;
+  background-size:25px 25px;
+  border:1px solid #182534;
+  padding:25px;
+}
+
+.arch-flow{
+  display:grid;
+  grid-template-columns:1fr 1.1fr 1fr;
+  gap:45px;
+  align-items:center;
+  min-height:450px;
+  position:relative;
+}
+
+.arch-column{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+}
+
+.arch-column h4{
+  font-size:11px;
+  color:#6d8298;
+  letter-spacing:1px;
+  text-align:center;
+  margin:0 0 3px;
+}
+
+.arch-node{
+  background:#0d1621;
+  border:1px solid #263749;
+  border-radius:10px;
+  padding:12px;
+  position:relative;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+.arch-node.main{
+  border-color:rgba(230,0,18,.45);
+  background:
+    linear-gradient(135deg,rgba(230,0,18,.1),#0d1621);
+}
+
+.arch-node.blue{
+  border-color:rgba(56,189,248,.4);
+}
+
+.arch-node.green{
+  border-color:rgba(34,197,94,.35);
+}
+
+.arch-node-title{
+  font-size:11px;
+  font-weight:800;
+}
+
+.arch-node-sub{
+  color:#71859a;
+  font-size:9px;
+  margin-top:3px;
+  line-height:1.5;
+}
+
+.arch-arrow{
+  position:absolute;
+  width:42px;
+  height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--red));
+  top:50%;
+}
+
+.arch-arrow:after{
+  content:"";
+  position:absolute;
+  left:-1px;
+  top:-4px;
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
+  border-right:8px solid var(--red);
+}
+
+.arch-arrow.a1{
+  right:calc(33.33% + 8px);
+}
+
+.arch-arrow.a2{
+  left:calc(33.33% + 8px);
+}
+
+.recommendations{
+  display:grid;
+  gap:9px;
+  margin-top:13px;
+}
+
+.rec{
+  border:1px solid var(--line);
+  background:#080e16;
+  padding:11px;
+  border-radius:9px;
+}
+
+.rec-title{
+  font-size:11px;
+  font-weight:800;
+}
+
+.rec-text{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+  margin-top:3px;
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.products-toolbar{
+  display:grid;
+  grid-template-columns:1fr 200px 160px;
+  gap:9px;
+  margin-bottom:15px;
+}
+
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.product{
+  overflow:hidden;
+  position:relative;
+}
+
+.product-visual{
+  height:135px;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(56,189,248,.1),transparent 35%),
+    linear-gradient(145deg,#101a27,#070c13);
+  border-bottom:1px solid var(--line);
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+
+.product-logo{
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(56,189,248,.25);
+  color:#7dd3fc;
+  font-size:23px;
+  font-weight:900;
+  background:#0a121c;
+  box-shadow:0 0 35px rgba(56,189,248,.07);
+}
+
+.product-category{
+  position:absolute;
+  top:10px;
+  right:10px;
+  padding:4px 7px;
+  border-radius:5px;
+  font-size:8px;
+  background:#070c13;
+  color:#8ea1b4;
+  border:1px solid var(--line);
+}
+
+.product-body{
+  padding:14px;
+}
+
+.product-name{
+  font-size:15px;
+  font-weight:900;
+}
+
+.product-series{
+  color:var(--blue);
+  font-size:9px;
+  margin-top:2px;
+}
+
+.product-desc{
+  color:#8294a7;
+  font-size:10px;
+  line-height:1.65;
+  margin:9px 0;
+  min-height:48px;
+}
+
+.specs{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+
+.spec{
+  font-size:8px;
+  color:#a8b8c8;
+  padding:4px 6px;
+  background:#080e16;
+  border:1px solid #1a2735;
+  border-radius:5px;
+}
+
+.product-actions{
+  display:flex;
+  gap:6px;
+  margin-top:12px;
+}
+
+.product-actions .btn{
+  flex:1;
+  padding:8px 6px;
+  font-size:9px;
+}
+
+/* =========================
+   SOLUTIONS
+========================= */
+
+.solution-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.solution{
+  padding:20px;
+  min-height:220px;
+}
+
+.solution-icon{
+  width:47px;
+  height:47px;
+  border-radius:12px;
+  background:rgba(230,0,18,.08);
+  border:1px solid rgba(230,0,18,.2);
+  display:grid;
+  place-items:center;
+  font-size:20px;
+  margin-bottom:14px;
+}
+
+.solution h3{
+  margin:0;
+  font-size:15px;
+}
+
+.solution p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+}
+
+.solution-list{
+  padding:0;
+  margin:12px 0 0;
+  list-style:none;
+}
+
+.solution-list li{
+  font-size:10px;
+  color:#a9b8c7;
+  padding:5px 0;
+  border-bottom:1px dashed #182534;
+}
+
+.solution-list li:before{
+  content:"✓";
+  color:var(--green);
+  margin-left:6px;
+}
+
+/* =========================
+   BOQ
+========================= */
+
+.boq-layout{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:15px;
+}
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  padding:11px 9px;
+  border-bottom:1px solid var(--line);
+  text-align:right;
+  font-size:10px;
+  white-space:nowrap;
+}
+
+th{
+  background:#0b131d;
+  color:#8297ab;
+  font-size:9px;
+  position:sticky;
+  top:0;
+}
+
+td{
+  color:#d9e3ed;
+}
+
+.qty-input{
+  width:60px;
+  background:#080e16;
+  border:1px solid var(--line);
+  color:white;
+  padding:6px;
+  border-radius:6px;
+  text-align:center;
+}
+
+.boq-summary{
+  padding:18px;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:10px 0;
+  border-bottom:1px dashed #1b2938;
+  color:#9aacbd;
+  font-size:11px;
+}
+
+.summary-row strong{
+  color:white;
+}
+
+.summary-total{
+  margin-top:12px;
+  padding:14px;
+  border-radius:10px;
+  background:linear-gradient(135deg,rgba(230,0,18,.13),rgba(56,189,248,.05));
+  border:1px solid rgba(230,0,18,.22);
+}
+
+.summary-total div:first-child{
+  color:#8fa1b2;
+  font-size:10px;
+}
+
+.summary-total div:last-child{
+  font-size:25px;
+  font-weight:900;
+  margin-top:3px;
+}
+
+/* =========================
+   COMPARE
+========================= */
+
+.compare-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.compare-card{
+  padding:16px;
+}
+
+.compare-card h3{
+  margin:0 0 12px;
+}
+
+.compare-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px dashed #1c2a39;
+  font-size:10px;
+}
+
+.compare-row span:first-child{
+  color:#778da2;
+}
+
+.compare-row span:last-child{
+  color:#dce6ef;
+  text-align:left;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(10px);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(760px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#0a1018;
+  border:1px solid #263747;
+  border-radius:15px;
+  box-shadow:0 30px 100px rgba(0,0,0,.7);
+}
+
+.modal-header{
+  padding:18px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.modal-title{
+  font-weight:900;
+}
+
+.modal-body{
+  padding:20px;
+}
+
+.close{
+  border:0;
+  background:#101923;
+  color:#9db0c2;
+  width:32px;
+  height:32px;
+  border-radius:7px;
+  font-size:17px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  left:25px;
+  bottom:25px;
+  z-index:5000;
+  padding:12px 16px;
+  border-radius:9px;
+  background:#101a26;
+  border:1px solid #2a3b4e;
+  box-shadow:var(--shadow);
+  color:#dce8f2;
+  font-size:11px;
+  transform:translateY(30px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* =========================
+   PRINT
+========================= */
+
+.print-only{
+  display:none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+  .products-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .solution-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .designer-grid{
+    grid-template-columns:320px 1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:900px){
+  .sidebar{
+    width:75px;
+  }
+
+  .main{
+    margin-right:75px;
+  }
+
+  .brand-title,
+  .brand-sub,
+  .nav-section,
+  .nav button span:not(.nav-icon),
+  .sidebar-footer{
+    display:none;
+  }
+
+  .brand{
+    padding:17px 14px;
+  }
+
+  .brand-logo{
+    justify-content:center;
+  }
+
+  .nav button{
+    justify-content:center;
+    padding:13px 5px;
+  }
+
+  .nav-icon{
+    width:auto;
+  }
+
+  .designer-grid,
+  .boq-layout{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid,
+  .stat-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:650px){
+  .topbar{
+    padding:0 12px;
+  }
+
+  .page{
+    padding:12px;
+  }
+
+  .top-actions .btn span{
+    display:none;
+  }
+
+  .products-toolbar{
+    grid-template-columns:1fr;
+  }
+
+  .products-grid,
+  .solution-grid,
+  .compare-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid,
+  .stat-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    padding:25px 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+  <div class="brand">
+    <div class="brand-logo">
+      <div class="brand-mark">M</div>
+      <div>
+        <div class="brand-title">MOTIVITY</div>
+        <div class="brand-sub">ENGINEERING AV SUITE</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav">
+
+    <div class="nav-section" data-i18n="nav.main">الرئيسية</div>
+
+    <button class="active" data-page="home">
+      <span class="nav-icon">⌂</span>
+      <span data-i18n="nav.home">الرئيسية</span>
+    </button>
+
+    <button data-page="designer">
+      <span class="nav-icon">⚙</span>
+      <span data-i18n="nav.designer">المصمم الذكي</span>
+    </button>
+
+    <div class="nav-section" data-i18n="nav.catalog">الكتالوج</div>
+
+    <button data-page="products">
+      <span class="nav-icon">▣</span>
+      <span data-i18n="nav.products">المنتجات</span>
+    </button>
+
+    <button data-page="solutions">
+      <span class="nav-icon">◈</span>
+      <span data-i18n="nav.solutions">الحلول المتكاملة</span>
+    </button>
+
+    <div class="nav-section" data-i18n="nav.project">المشروع</div>
+
+    <button data-page="boq">
+      <span class="nav-icon">☷</span>
+      <span data-i18n="nav.boq">جدول الكميات</span>
+    </button>
+
+    <button data-page="compare">
+      <span class="nav-icon">⇄</span>
+      <span data-i18n="nav.compare">المقارنة</span>
+    </button>
+
+  </nav>
+
+  <div class="sidebar-footer">
+    MOTIVITY ENGINEERING<br>
+    Professional AV • 2026
+  </div>
+
+</aside>
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+  <div>
+    <div class="page-title" id="pageTitle">MOTIVITY Engineering Suite</div>
+    <div class="page-subtitle" id="pageSubtitle">
+      Professional Audio • Video • Control • Network
+    </div>
+  </div>
+
+  <div class="top-actions">
+
+    <button class="btn btn-green" onclick="saveProject()">
+      <span>💾 </span><span data-i18n="actions.save">حفظ</span>
+    </button>
+
+    <button class="btn" onclick="loadProject()">
+      <span>↻ </span><span data-i18n="actions.load">استرجاع</span>
+    </button>
+
+    <button class="btn btn-primary" onclick="printProposal()">
+      <span>🖨 </span><span data-i18n="actions.print">طباعة التقرير</span>
+    </button>
+
+    <button class="btn btn-blue" onclick="toggleLanguage()" id="languageBtn">
+      EN
+    </button>
+
+  </div>
+
+</header>
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section class="page active" id="page-home">
+
+  <div class="hero">
+
+    <div class="hero-content">
+
+      <div class="hero-kicker">
+        MOTIVITY • ENGINEERING INTELLIGENCE
+      </div>
+
+      <h1>
+        <span>MOTIVITY</span><br>
+        Engineering AV Suite
+      </h1>
+
+      <p data-i18n="home.hero">
+        منصة هندسية متكاملة لتصميم حلول الصوت والصورة والتحكم والشبكات
+        وإدارة الاجتماعات والأنظمة الاحترافية، مع إنشاء BOQ ورسم معماري
+        للنظام قابل للطباعة.
+      </p>
+
+      <div class="hero-actions">
+
+        <button class="btn btn-primary" onclick="goPage('designer')">
+          ⚙ <span data-i18n="home.start">ابدأ تصميم مشروع</span>
+        </button>
+
+        <button class="btn btn-blue" onclick="goPage('products')">
+          ▣ <span data-i18n="home.catalog">استعرض المنتجات</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="stat-grid">
+
+    <div class="card stat">
+      <div class="stat-number" id="statProducts">0</div>
+      <div class="stat-label" data-i18n="stats.products">منتج بالنظام</div>
+    </div>
+
+    <div class="card stat">
+      <div class="stat-number">09</div>
+      <div class="stat-label" data-i18n="stats.categories">قطاعات تقنية</div>
+    </div>
+
+    <div class="card stat">
+      <div class="stat-number">∞</div>
+      <div class="stat-label" data-i18n="stats.designs">تصميمات قابلة للتخصيص</div>
+    </div>
+
+    <div class="card stat">
+      <div class="stat-number">A4</div>
+      <div class="stat-label" data-i18n="stats.print">تقارير جاهزة للطباعة</div>
+    </div>
+
+  </div>
+
+  <div class="quick-grid">
+
+    <div class="card quick" onclick="goPage('designer')">
+      <div class="quick-icon">⚙</div>
+      <h3 data-i18n="quick.designer">Smart AV Designer</h3>
+      <p data-i18n="quick.designerDesc">
+        أدخل أبعاد المكان وعدد الأشخاص ونوع المشروع ليتم بناء تصور هندسي أولي.
+      </p>
+    </div>
+
+    <div class="card quick" onclick="goPage('solutions')">
+      <div class="quick-icon">◈</div>
+      <h3 data-i18n="quick.solutions">Integrated Solutions</h3>
+      <p data-i18n="quick.solutionsDesc">
+        حلول جاهزة للاجتماعات والحكومات والشبكات والصوت والصورة والتحكم.
+      </p>
+    </div>
+
+    <div class="card quick" onclick="goPage('boq')">
+      <div class="quick-icon">☷</div>
+      <h3 data-i18n="quick.boq">BOQ & Proposal</h3>
+      <p data-i18n="quick.boqDesc">
+        أنشئ جدول الكميات وارفق معه الرسم المعماري للنظام ثم اطبع التقرير.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     DESIGNER
+========================= -->
+
+<section class="page" id="page-designer">
+
+  <div class="designer-grid">
+
+    <div class="designer-left">
+
+      <div class="card">
+
+        <div class="card-header">
+          <div>
+            <div class="card-title" data-i18n="designer.project">بيانات المشروع</div>
+            <div class="card-sub" data-i18n="designer.projectSub">
+              أدخل المعلومات الأساسية
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="form-grid">
+
+            <div class="field full">
+              <label data-i18n="form.projectName">اسم المشروع</label>
+              <input id="projectName" value="MOTIVITY AV PROJECT">
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.type">نوع المشروع</label>
+
+              <select id="projectType">
+
+                <option value="conference">قاعة اجتماعات</option>
+                <option value="government">حكومي / قاعة كبرى</option>
+                <option value="classroom">قاعة تدريب / تعليم</option>
+                <option value="hotel">فندق / قاعة مناسبات</option>
+                <option value="mosque">مسجد</option>
+                <option value="concert">فعالية / مسرح</option>
+                <option value="control">غرفة تحكم</option>
+                <option value="hybrid">قاعة هجينة</option>
+
+              </select>
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.people">عدد الأشخاص</label>
+              <input id="people" type="number" value="100" min="1">
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.length">الطول m</label>
+              <input id="length" type="number" value="12" min="1" step=".1">
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.width">العرض m</label>
+              <input id="width" type="number" value="8" min="1" step=".1">
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.height">الارتفاع m</label>
+              <input id="height" type="number" value="3.5" min="1" step=".1">
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.mics">الميكروفونات</label>
+              <input id="micCount" type="number" value="12" min="0">
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.displays">الشاشات</label>
+              <input id="displayCount" type="number" value="2" min="0">
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.camera">كاميرا</label>
+              <select id="camera">
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label data-i18n="form.network">شبكة صوت</label>
+              <select id="networkAudio">
+                <option value="yes">نعم</option>
+                <option value="no">لا</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label data-i18n="form.notes">ملاحظات</label>
+              <textarea id="projectNotes">Professional AV system with central control, audio processing and presentation.</textarea>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+
+            <button class="btn btn-primary" onclick="buildSystem()">
+              ⚙ <span data-i18n="designer.generate">توليد التصميم</span>
+            </button>
+
+            <button class="btn" onclick="clearBOQ()">
+              ✕ <span data-i18n="designer.clear">مسح BOQ</span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="card-header">
+          <div>
+            <div class="card-title" data-i18n="designer.recommendations">التوصيات الهندسية</div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div id="recommendations" class="recommendations">
+            <div class="rec">
+              <div class="rec-title">MOTIVITY</div>
+              <div class="rec-text">
+                أدخل بيانات المشروع واضغط «توليد التصميم».
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="design-output">
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <div>
+            <div class="card-title" data-i18n="designer.architecture">
+              System Architecture
+            </div>
+
+            <div class="card-sub">
+              Dynamic AV Signal Flow
+            </div>
+          </div>
+
+          <button class="btn btn-blue" onclick="printProposal()">
+            🖨 <span data-i18n="actions.print">طباعة التقرير</span>
+          </button>
+
+        </div>
+
+        <div class="architecture">
+
+          <div class="arch-canvas" id="architectureCanvas">
+
+            <div class="arch-flow">
+
+              <div class="arch-column">
+
+                <h4>INPUTS</h4>
+
+                <div class="arch-node blue">
+                  <div class="arch-node-title">Microphones</div>
+                  <div class="arch-node-sub">Conference / Wireless / Wired</div>
+                </div>
+
+                <div class="arch-node blue">
+                  <div class="arch-node-title">Video Sources</div>
+                  <div class="arch-node-sub">Laptop / HDMI / USB-C / Camera</div>
+                </div>
+
+                <div class="arch-node blue">
+                  <div class="arch-node-title">BYOM / Content</div>
+                  <div class="arch-node-sub">Wireless Presentation</div>
+                </div>
+
+              </div>
+
+              <div class="arch-column">
+
+                <h4>PROCESSING</h4>
+
+                <div class="arch-node main">
+                  <div class="arch-node-title">Audio DSP / Mixer</div>
+                  <div class="arch-node-sub">MD1810 / DM48 Pro</div>
+                </div>
+
+                <div class="arch-node main">
+                  <div class="arch-node">
+                    <div class="arch-node-title">Central AV Control</div>
+                    <div class="arch-node-sub">AV1000M-II / AV2000M / MT-ALLINONE</div>
+                  </div>
+                </div>
+
+                <div class="arch-node main">
+                  <div class="arch-node-title">Signal Routing</div>
+                  <div class="arch-node-sub">MTS / MTV Matrix</div>
+                </div>
+
+                <div class="arch-node green">
+                  <div class="arch-node-title">Network / Dante</div>
+                  <div class="arch-node-sub">Stride / Dante / PDM / PDL</div>
+                </div>
+
+              </div>
+
+              <div class="arch-column">
+
+                <h4>OUTPUTS</h4>
+
+                <div class="arch-node">
+                  <div class="arch-node-title">Amplification</div>
+                  <div class="arch-node-sub">Professional Amplifiers</div>
+                </div>
+
+                <div class="arch-node">
+                  <div class="arch-node-title">Loudspeakers</div>
+                  <div class="arch-node-sub">AT / NX / MLA / PAL</div>
+                </div>
+
+                <div class="arch-node">
+                  <div class="arch-node-title">Displays</div>
+                  <div class="arch-node-sub">LED / LCD / Projection</div>
+                </div>
+
+                <div class="arch-node">
+                  <div class="arch-node-title">Recording / Streaming</div>
+                  <div class="arch-node-sub">USB / IP / RTMP</div>
+                </div>
+
+              </div>
+
+              <div class="arch-arrow a1"></div>
+              <div class="arch-arrow a2"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     PRODUCTS
+========================= -->
+
+<section class="page" id="page-products">
+
+  <div class="products-toolbar">
+
+    <input
+      class="field"
+      style="background:#080e16;border:1px solid var(--line);color:white;border-radius:8px;padding:10px"
+      id="productSearch"
+      placeholder="ابحث عن منتج / Search product..."
+      oninput="renderProducts()"
+    >
+
+    <select
+      id="productCategory"
+      onchange="renderProducts()"
+      style="background:#080e16;border:1px solid var(--line);color:white;border-radius:8px;padding:10px"
+    >
+      <option value="all">كل الفئات</option>
+    </select>
+
+    <button class="btn btn-blue" onclick="clearProductFilters()">
+      ↺ إعادة ضبط
+    </button>
+
+  </div>
+
+  <div class="products-grid" id="productsGrid"></div>
+
+</section>
+
+<!-- =========================
+     SOLUTIONS
+========================= -->
+
+<section class="page" id="page-solutions">
+
+  <div class="solution-grid">
+
+    <div class="card solution">
+
+      <div class="solution-icon">🏛</div>
+
+      <h3>Government & Large Halls</h3>
+
+      <p>
+        حلول صوت وصورة وتحكم متكاملة للجهات الحكومية وقاعات المؤتمرات الكبرى.
+      </p>
+
+      <ul class="solution-list">
+        <li>Line Array / Professional PA</li>
+        <li>Digital DSP</li>
+        <li>Central Control</li>
+        <li>Video Matrix</li>
+        <li>Recording & Streaming</li>
+      </ul>
+
+      <button class="btn btn-primary" onclick="applySolution('government')">
+        استخدام الحل
+      </button>
+
+    </div>
+
+    <div class="card solution">
+
+      <div class="solution-icon">🎙</div>
+
+      <h3>Conference Room</h3>
+
+      <p>
+        نظام اجتماعات رقمي مع ميكروفونات وإدارة نقاش وتتبع كاميرات.
+      </p>
+
+      <ul class="solution-list">
+        <li>Conference Controller</li>
+        <li>Chairman / Delegate Units</li>
+        <li>Camera Tracking</li>
+        <li>Display System</li>
+        <li>Central Control</li>
+      </ul>
+
+      <button class="btn btn-primary" onclick="applySolution('conference')">
+        استخدام الحل
+      </button>
+
+    </div>
+
+    <div class="card solution">
+
+      <div class="solution-icon">🌐</div>
+
+      <h3>Dante Network</h3>
+
+      <p>
+        بنية صوت شبكية قابلة للتوسع باستخدام Dante وDSP وأجهزة الصوت الشبكية.
+      </p>
+
+      <ul class="solution-list">
+        <li>Stride Network Audio</li>
+        <li>Dante DSP</li>
+        <li>Network Amplifiers</li>
+        <li>Dante Speakers</li>
+        <li>Central Monitoring</li>
+      </ul>
+
+      <button class="btn btn-primary" onclick="applySolution('dante')">
+        استخدام الحل
+      </button>
+
+    </div>
+
+    <div class="card solution">
+
+      <div class="solution-icon">🖥</div>
+
+      <h3>Video Wall</h3>
+
+      <p>
+        أنظمة معالجة ومصفوفات فيديو وشاشات متعددة مع تحكم مركزي.
+      </p>
+
+      <ul class="solution-list">
+        <li>MTV Modular Matrix</li>
+        <li>PSC Processor</li>
+        <li>Tracking Camera</li>
+        <li>Wireless Presentation</li>
+        <li>Central Control</li>
+      </ul>
+
+      <button class="btn btn-primary" onclick="applySolution('video')">
+        استخدام الحل
+      </button>
+
+    </div>
+
+    <div class="card solution">
+
+      <div class="solution-icon">🎛</div>
+
+      <h3>AV Control Room</h3>
+
+      <p>
+        غرفة تحكم متكاملة لمراقبة مصادر الصوت والصورة وإدارة السيناريوهات.
+      </p>
+
+      <ul class="solution-list">
+        <li>AV2000M</li>
+        <li>PSC</li>
+        <li>MTV Matrix</li>
+        <li>Network Audio</li>
+        <li>Monitoring</li>
+      </ul>
+
+      <button class="btn btn-primary" onclick="applySolution('control')">
+        استخدام الحل
+      </button>
+
+    </div>
+
+    <div class="card solution">
+
+      <div class="solution-icon">🔀</div>
+
+      <h3>Hybrid Meeting</h3>
+
+      <p>
+        اجتماع يجمع الحضور المحليين والمشاركين عن بعد مع مشاركة المحتوى.
+      </p>
+
+      <ul class="solution-list">
+        <li>WMS-100 BYOM</li>
+        <li>PTZ Tracking</li>
+        <li>Conference System</li>
+        <li>USB Audio / Video</li>
+        <li>Central Control</li>
+      </ul>
+
+      <button class="btn btn-primary" onclick="applySolution('hybrid')">
+        استخدام الحل
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     BOQ
+========================= -->
+
+<section class="page" id="page-boq">
+
+  <div class="boq-layout">
+
+    <div class="card">
+
+      <div class="card-header">
+
+        <div>
+          <div class="card-title">Bill of Quantities — BOQ</div>
+          <div class="card-sub">
+            المنتجات المختارة للمشروع
+          </div>
+        </div>
+
+        <div style="display:flex;gap:7px">
+
+          <button class="btn btn-danger" onclick="clearBOQ()">
+            حذف الكل
+          </button>
+
+          <button class="btn btn-primary" onclick="printProposal()">
+            🖨 طباعة التقرير
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>#</th>
+              <th>المنتج</th>
+              <th>الفئة</th>
+              <th>الوصف</th>
+              <th>الكمية</th>
+              <th>إجراء</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="boqBody"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+    <div class="card boq-summary">
+
+      <div class="card-title">Project Summary</div>
+
+      <div class="summary-row">
+        <span>Products</span>
+        <strong id="summaryProducts">0</strong>
+      </div>
+
+      <div class="summary-row">
+        <span>Units</span>
+        <strong id="summaryUnits">0</strong>
+      </div>
+
+      <div class="summary-row">
+        <span>Project</span>
+        <strong id="summaryProject">—</strong>
+      </div>
+
+      <div class="summary-total">
+        <div>BOQ Items</div>
+        <div id="summaryTotal">0</div>
+      </div>
+
+      <div style="margin-top:15px">
+
+        <button class="btn btn-primary" style="width:100%" onclick="printProposal()">
+          🖨 طباعة Proposal + Architecture
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     COMPARE
+========================= -->
+
+<section class="page" id="page-compare">
+
+  <div class="card" style="margin-bottom:15px">
+
+    <div class="card-header">
+
+      <div>
+        <div class="card-title">Product Comparison</div>
+        <div class="card-sub">
+          اختر المنتجات من صفحة المنتجات للمقارنة
+        </div>
+      </div>
+
+      <button class="btn btn-danger" onclick="compareList=[];renderCompare();">
+        مسح
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="compare-grid" id="compareGrid"></div>
+
+</section>
+
+</main>
+
+<!-- =========================
+     PRODUCT MODAL
+========================= -->
+
+<div class="modal" id="productModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <div class="modal-title" id="modalTitle">Product</div>
+
+      <button class="close" onclick="closeModal()">×</button>
+
+    </div>
+
+    <div class="modal-body" id="modalBody"></div>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* =========================================================
+   MOTIVITY ENGINEERING SUITE
+   Single File Application
+========================================================= */
+
+/* =========================
+   TRANSLATIONS
+========================= */
+
+const T = {
+
+  ar:{
+    "nav.main":"الرئيسية",
+    "nav.home":"الرئيسية",
+    "nav.designer":"المصمم الذكي",
+    "nav.catalog":"الكتالوج",
+    "nav.products":"المنتجات",
+    "nav.solutions":"الحلول المتكاملة",
+    "nav.project":"المشروع",
+    "nav.boq":"جدول الكميات",
+    "nav.compare":"المقارنة",
+
+    "actions.save":"حفظ",
+    "actions.load":"استرجاع",
+    "actions.print":"طباعة التقرير",
+
+    "home.hero":
+      "منصة هندسية متكاملة لتصميم حلول الصوت والصورة والتحكم والشبكات وإدارة الاجتماعات والأنظمة الاحترافية، مع إنشاء BOQ ورسم معماري للنظام قابل للطباعة.",
+
+    "home.start":"ابدأ تصميم مشروع",
+    "home.catalog":"استعرض المنتجات",
+
+    "stats.products":"منتج بالنظام",
+    "stats.categories":"قطاعات تقنية",
+    "stats.designs":"تصميمات قابلة للتخصيص",
+    "stats.print":"تقارير جاهزة للطباعة",
+
+    "quick.designer":"Smart AV Designer",
+    "quick.designerDesc":"أدخل أبعاد المكان وعدد الأشخاص ونوع المشروع ليتم بناء تصور هندسي أولي.",
+    "quick.solutions":"Integrated Solutions",
+    "quick.solutionsDesc":"حلول جاهزة للاجتماعات والحكومات والشبكات والصوت والصورة والتحكم.",
+    "quick.boq":"BOQ & Proposal",
+    "quick.boqDesc":"أنشئ جدول الكميات وارفق معه الرسم المعماري للنظام ثم اطبع التقرير.",
+
+    "designer.project":"بيانات المشروع",
+    "designer.projectSub":"أدخل المعلومات الأساسية",
+    "designer.generate":"توليد التصميم",
+    "designer.clear":"مسح BOQ",
+    "designer.recommendations":"التوصيات الهندسية",
+    "designer.architecture":"System Architecture",
+
+    "form.projectName":"اسم المشروع",
+    "form.type":"نوع المشروع",
+    "form.people":"عدد الأشخاص",
+    "form.length":"الطول m",
+    "form.width":"العرض m",
+    "form.height":"الارتفاع m",
+    "form.mics":"الميكروفونات",
+    "form.displays":"الشاشات",
+    "form.camera":"كاميرا",
+    "form.network":"شبكة صوت",
+    "form.notes":"ملاحظات"
+  },
+
+  en:{
+    "nav.main":"MAIN",
+    "nav.home":"Home",
+    "nav.designer":"Smart Designer",
+    "nav.catalog":"CATALOG",
+    "nav.products":"Products",
+    "nav.solutions":"Solutions",
+    "nav.project":"PROJECT",
+    "nav.boq":"BOQ",
+    "nav.compare":"Compare",
+
+    "actions.save":"Save",
+    "actions.load":"Load",
+    "actions.print":"Print Report",
+
+    "home.hero":
+      "A professional engineering platform for designing audio, video, control, network and conference systems with BOQ generation and printable system architecture.",
+
+    "home.start":"Start Project",
+    "home.catalog":"Browse Products",
+
+    "stats.products":"Products",
+    "stats.categories":"Technology Sectors",
+    "stats.designs":"Configurable Designs",
+    "stats.print":"Printable Reports",
+
+    "quick.designer":"Smart AV Designer",
+    "quick.designerDesc":"Enter room dimensions, audience and project type to build a preliminary engineering concept.",
+    "quick.solutions":"Integrated Solutions",
+    "quick.solutionsDesc":"Ready-made solutions for conference, government, network, audio, video and control systems.",
+    "quick.boq":"BOQ & Proposal",
+    "quick.boqDesc":"Build a bill of quantities with a matching system architecture diagram.",
+
+    "designer.project":"Project Data",
+    "designer.projectSub":"Enter the basic project information",
+    "designer.generate":"Generate Design",
+    "designer.clear":"Clear BOQ",
+    "designer.recommendations":"Engineering Recommendations",
+    "designer.architecture":"System Architecture",
+
+    "form.projectName":"Project Name",
+    "form.type":"Project Type",
+    "form.people":"People",
+    "form.length":"Length m",
+    "form.width":"Width m",
+    "form.height":"Height m",
+    "form.mics":"Microphones",
+    "form.displays":"Displays",
+    "form.camera":"Camera",
+    "form.network":"Network Audio",
+    "form.notes":"Notes"
+  }
+
+};
+
+let currentLang = "ar";
+
+/* =========================
+   PRODUCT DATABASE
+========================= */
+
+const PRODUCTS = [
+
+/* AUDIO */
+
+{
+ id:"AT-12",
+ name:"AT-12",
+ series:"Professional Audio",
+ category:"Professional Audio",
+ icon:"AT",
+ desc:"2-way bass reflex professional loudspeaker.",
+ specs:["12\" LF","450W","8Ω","124dB","90°×90°"],
+ details:{
+  type:"2-way bass reflex",
+  power:"450W rated",
+  impedance:"8Ω",
+  sensitivity:"98dB",
+  spl:"124dB continuous",
+  coverage:"90° H × 90° V",
+  response:"45Hz–20kHz",
+  hf:'1.7"',
+  lf:'12"'
+ }
+},
+
+{
+ id:"NX-312",
+ name:"NX-312",
+ series:"Professional Audio",
+ category:"Professional Audio",
+ icon:"NX",
+ desc:"Professional 12-inch two-way passive loudspeaker.",
+ specs:["12\" LF","450W","8Ω","130dB","90°×50°"],
+ details:{
+  power:"450W rated / 900W program / 1800W peak",
+  impedance:"8Ω",
+  sensitivity:"97dB",
+  spl:"124dB @450W / 130dB @1800W",
+  response:"50Hz–20kHz",
+  coverage:"90° H × 50° V",
+  hf:'1.3"',
+  lf:'12"'
+ }
+},
+
+{
+ id:"NX-3118",
+ name:"NX-3118",
+ series:"Professional Audio",
+ category:"Professional Audio",
+ icon:"SUB",
+ desc:"High-output 18-inch professional subwoofer.",
+ specs:["18\"","700W","8Ω","130dB","35Hz"],
+ details:{
+  power:"700W rated / 1400W program / 2800W peak",
+  impedance:"8Ω",
+  sensitivity:"102dB",
+  spl:"130dB",
+  response:"35Hz–300Hz",
+  driver:'18"'
+ }
+},
+
+{
+ id:"PAL83",
+ name:"PAL83",
+ series:"Professional Audio",
+ category:"Professional Audio",
+ icon:"PAL",
+ desc:"Column speaker with eight 3-inch drivers.",
+ specs:["8×3\"","250W","4Ω","123dB","100°"],
+ details:{
+  power:"250W rated / 500W program / 1000W peak",
+  impedance:"4Ω",
+  sensitivity:"99dB",
+  spl:"123dB",
+  response:"130Hz–18kHz",
+  coverage:"100° H × 30° V",
+  drivers:"8 × 3-inch"
+ }
+},
+
+{
+ id:"M-8III",
+ name:"M-8III",
+ series:"Line Array",
+ category:"Professional Audio",
+ icon:"M8",
+ desc:"Professional line-array element for large venues.",
+ specs:["Line Array","High SPL","Touring","Large Venue"],
+ details:{
+  type:"Professional line array",
+  use:"Large halls / events / government venues"
+ }
+},
+
+{
+ id:"M-25BW",
+ name:"M-25BW",
+ series:"Subwoofer",
+ category:"Professional Audio",
+ icon:"M25",
+ desc:"Professional subwoofer for high-output systems.",
+ specs:["Subwoofer","High SPL","Large Venue"],
+ details:{
+  type:"Professional subwoofer",
+  use:"Large halls / events"
+ }
+},
+
+{
+ id:"AT-10",
+ name:"AT-10",
+ series:"Professional Audio",
+ category:"Professional Audio",
+ icon:"AT10",
+ desc:"Professional compact loudspeaker for fill applications.",
+ specs:["Full Range","Fill","Professional"],
+ details:{
+  type:"Professional full-range loudspeaker",
+  use:"Front fill / side fill / distributed audio"
+ }
+},
+
+{
+ id:"MTL-700",
+ name:"MTL-700 3G",
+ series:"Stage Monitor",
+ category:"Professional Audio",
+ icon:"M7",
+ desc:"Professional stage monitor.",
+ specs:["500W","Monitor","90°×60°"],
+ details:{
+  power:"500W",
+  use:"Stage monitoring",
+  coverage:"90° H × 60° V"
+ }
+},
+
+{
+ id:"DB-25",
+ name:"DB-25",
+ series:"Professional Speaker",
+ category:"Professional Audio",
+ icon:"DB",
+ desc:"Professional passive full-range loudspeaker.",
+ specs:["1000W","133dB","100°×60°"],
+ details:{
+  power:"1000W RMS",
+  spl:"133dB peak",
+  coverage:"100° H × 60° V"
+ }
+},
+
+{
+ id:"DB-25 NW",
+ name:"DB-25 NW",
+ series:"Professional Speaker",
+ category:"Professional Audio",
+ icon:"DB",
+ desc:"High-output professional speaker.",
+ specs:["1000W","133dB","100°×70°"],
+ details:{
+  power:"1000W",
+  spl:"133dB",
+  coverage:"100° H × 70° V"
+ }
+},
+
+{
+ id:"DB-218",
+ name:"DB-218",
+ series:"Subwoofer",
+ category:"Professional Audio",
+ icon:"218",
+ desc:"Dual 18-inch professional subwoofer.",
+ specs:["Dual 18\"","1400W","Sub"],
+ details:{
+  driver:"Dual 18-inch",
+  power:"1400W",
+  use:"Professional low frequency reinforcement"
+ }
+},
+
+{
+ id:"HD315A",
+ name:"HD315A",
+ series:"Active Speaker",
+ category:"Professional Audio",
+ icon:"315",
+ desc:"High-power active loudspeaker.",
+ specs:["1000W RMS","4000W Peak","133dB"],
+ details:{
+  power:"1000W RMS / 4000W peak",
+  spl:"133dB",
+  response:"42Hz–20kHz",
+  weight:"24.65kg"
+ }
+},
+
+{
+ id:"HD312A",
+ name:"HD312A",
+ series:"Active Speaker",
+ category:"Professional Audio",
+ icon:"312",
+ desc:"Active 12-inch professional loudspeaker.",
+ specs:["1000W RMS","4000W Peak","131dB"],
+ details:{
+  power:"1000W RMS / 4000W peak",
+  spl:"131dB",
+  coverage:"90°×60°",
+  weight:"18.77kg"
+ }
+},
+
+{
+ id:"MLA212",
+ name:"MLA212",
+ series:"Line Array",
+ category:"Professional Audio",
+ icon:"212",
+ desc:"High-output professional line array.",
+ specs:["900W","138dB","90°×10°"],
+ details:{
+  power:"900W",
+  spl:"138dB",
+  coverage:"90° H × 10° V"
+ }
+},
+
+{
+ id:"MLA210",
+ name:"MLA210",
+ series:"Line Array",
+ category:"Professional Audio",
+ icon:"210",
+ desc:"Compact professional line array.",
+ specs:["700W","135dB"],
+ details:{
+  power:"700W",
+  spl:"135dB"
+ }
+},
+
+{
+ id:"M10-LA",
+ name:"M10-LA",
+ series:"Line Array",
+ category:"Professional Audio",
+ icon:"LA",
+ desc:"Professional line array loudspeaker.",
+ specs:["700W","132dB"],
+ details:{
+  power:"700W",
+  spl:"132dB"
+ }
+},
+
+{
+ id:"MD1810",
+ name:"MD1810",
+ series:"Digital Mixer",
+ category:"Professional Audio",
+ icon:"MIX",
+ desc:"Professional digital audio mixer.",
+ specs:["Digital","DSP","Mixing"],
+ details:{
+  type:"Digital mixing console",
+  use:"Professional mixing / events / conference"
+ }
+},
+
+{
+ id:"DM48 Pro",
+ name:"DM48 Pro",
+ series:"Digital Processor",
+ category:"Professional Audio",
+ icon:"DSP",
+ desc:"Professional digital audio processor.",
+ specs:["DSP","Matrix","EQ"],
+ details:{
+  type:"Digital audio processor",
+  use:"DSP / EQ / matrix / system processing"
+ }
+},
+
+{
+ id:"Stride-Pro",
+ name:"Stride-Pro",
+ series:"DSP / Network",
+ category:"Network Audio",
+ icon:"STR",
+ desc:"Professional network audio DSP platform.",
+ specs:["DSP","Network","Dante"],
+ details:{
+  type:"Network audio DSP",
+  use:"Large distributed AV systems"
+ }
+},
+
+{
+ id:"GEQ231",
+ name:"GEQ231",
+ series:"Equalizer",
+ category:"Professional Audio",
+ icon:"EQ",
+ desc:"Professional graphic equalizer.",
+ specs:["31 Band","DSP"],
+ details:{
+  type:"Graphic equalizer"
+ }
+},
+
+{
+ id:"DF224",
+ name:"DF224",
+ series:"Feedback Processor",
+ category:"Professional Audio",
+ icon:"DF",
+ desc:"Professional feedback suppression processor.",
+ specs:["Feedback","DSP"],
+ details:{
+  type:"Digital feedback processor"
+ }
+},
+
+/* NETWORK */
+
+{
+ id:"Stride Matrix",
+ name:"Stride Network Audio Matrix",
+ series:"Network Audio",
+ category:"Network Audio",
+ icon:"N",
+ desc:"Network audio matrix for distributed AV systems.",
+ specs:["Network","Matrix","Dante"],
+ details:{
+  type:"Network audio matrix",
+  use:"Distributed audio routing"
+ }
+},
+
+{
+ id:"Stride Host",
+ name:"Stride Host",
+ series:"Network Audio",
+ category:"Network Audio",
+ icon:"HOST",
+ desc:"Host/controller for network audio architecture.",
+ specs:["Host","Network"],
+ details:{
+  type:"Network audio host"
+ }
+},
+
+{
+ id:"Stride-AP22",
+ name:"Stride-AP22",
+ series:"Network Audio",
+ category:"Network Audio",
+ icon:"AP",
+ desc:"Network audio endpoint.",
+ specs:["Network","Audio"],
+ details:{
+  type:"Network audio endpoint"
+ }
+},
+
+{
+ id:"Stride-ARC",
+ name:"Stride-ARC",
+ series:"Network Audio",
+ category:"Network Audio",
+ icon:"ARC",
+ desc:"Network audio control interface.",
+ specs:["Control","Network"],
+ details:{
+  type:"Network control interface"
+ }
+},
+
+{
+ id:"Dante 44",
+ name:"Dante 44",
+ series:"Dante",
+ category:"Network Audio",
+ icon:"D44",
+ desc:"Dante network audio interface.",
+ specs:["Dante","I/O","Network"],
+ details:{
+  type:"Dante audio interface"
+ }
+},
+
+{
+ id:"Dante 88",
+ name:"Dante 88",
+ series:"Dante",
+ category:"Network Audio",
+ icon:"D88",
+ desc:"High-capacity Dante network audio interface.",
+ specs:["Dante","I/O","Network"],
+ details:{
+  type:"Dante audio interface"
+ }
+},
+
+{
+ id:"DAL",
+ name:"DAL",
+ series:"Dante Active",
+ category:"Network Audio",
+ icon:"DAL",
+ desc:"Dante active DSP line-array system.",
+ specs:["Dante","Active","Line Array"],
+ details:{
+  type:"Dante active DSP line array"
+ }
+},
+
+{
+ id:"PDM",
+ name:"PDM",
+ series:"Dante Active",
+ category:"Network Audio",
+ icon:"PDM",
+ desc:"Dante active loudspeaker.",
+ specs:["Dante","Active","Speaker"],
+ details:{
+  type:"Dante active speaker"
+ }
+},
+
+{
+ id:"PDL",
+ name:"PDL",
+ series:"Dante Active",
+ category:"Network Audio",
+ icon:"PDL",
+ desc:"Dante active column speaker.",
+ specs:["Dante","Column"],
+ details:{
+  type:"Dante active column speaker"
+ }
+},
+
+{
+ id:"PDC",
+ name:"PDC",
+ series:"Dante Active",
+ category:"Network Audio",
+ icon:"PDC",
+ desc:"Dante active ceiling speaker.",
+ specs:["Dante","Ceiling"],
+ details:{
+  type:"Dante active ceiling speaker"
+ }
+},
+
+/* CONTROL */
+
+{
+ id:"AV800M",
+ name:"AV800M",
+ series:"AV Management",
+ category:"Central Control",
+ icon:"800",
+ desc:"Central AV management and control platform.",
+ specs:["Control","AV","Central"],
+ details:{
+  type:"Central AV management"
+ }
+},
+
+{
+ id:"AV1000M-II",
+ name:"AV1000M-II",
+ series:"AV Management",
+ category:"Central Control",
+ icon:"1K",
+ desc:"Central AV management and control unit for meeting rooms and halls.",
+ specs:["Central","Control","AV"],
+ details:{
+  use:"Meeting rooms / boardrooms / training / hotels",
+  type:"Central AV management controller"
+ }
+},
+
+{
+ id:"AV2000M",
+ name:"AV2000M",
+ series:"AV Management",
+ category:"Central Control",
+ icon:"2K",
+ desc:"Modular smart central AV management host.",
+ specs:["Modular","FPGA","Control"],
+ details:{
+  type:"Modular central management host",
+  features:"Video/audio I/O cards, scene management"
+ }
+},
+
+{
+ id:"MT-ALLINONE",
+ name:"MT-ALLINONE",
+ series:"Smart AV",
+ category:"Central Control",
+ icon:"ALL",
+ desc:"All-in-one smart interactive AV management platform.",
+ specs:["Web","Control","Scenario"],
+ details:{
+  architecture:"B/S web architecture",
+  control:"RS232 / RS485 / IR / Network / Bluetooth / Zigbee",
+  platforms:"Windows / iOS / Android / HarmonyOS / Kylin",
+  cpu:"Quad-core Cortex-A53 64-bit 1.4GHz",
+  ram:"1GB",
+  network:"RJ45 1000Mbps",
+  power:"20W",
+  size:"45×440×190mm",
+  weight:"2.5kg"
+ }
+},
+
+{
+ id:"CONET-P10",
+ name:"CONET-P10",
+ series:"Control",
+ category:"Central Control",
+ icon:"P10",
+ desc:"Professional control network device.",
+ specs:["Control","Network"],
+ details:{
+  type:"AV control device"
+ }
+},
+
+{
+ id:"WZH-PMS",
+ name:"WZH-PMS",
+ series:"Conference Management",
+ category:"Central Control",
+ icon:"PMS",
+ desc:"Meeting management platform covering pre, during and post meeting workflows.",
+ specs:["Meeting","Voting","Files"],
+ details:{
+  functions:"Registration, seating, agenda, voting, annotation, screen sharing, device management, archiving"
+ }
+},
+
+{
+ id:"WZH-PclientWIN",
+ name:"WZH-PclientWIN",
+ series:"Conference Client",
+ category:"Central Control",
+ icon:"WIN",
+ desc:"Windows conference management client.",
+ specs:["Windows","Meeting","Voting"],
+ details:{
+  functions:"Attendance, agenda, minutes, voting, document annotation, whiteboard, screen sharing"
+ }
+},
+
+/* VIDEO */
+
+{
+ id:"MTS44",
+ name:"MTS44",
+ series:"HDMI Matrix",
+ category:"Video",
+ icon:"44",
+ desc:"4×4 HDMI matrix supporting 4K@30Hz.",
+ specs:["4×4","HDMI","4K30"],
+ details:{
+  inputs:"4 HDMI",
+  outputs:"4 HDMI",
+  resolution:"4K@30Hz",
+  bandwidth:"24Gbps",
+  control:"RS232 / optional TCP/IP",
+  audio:"PCM"
+ }
+},
+
+{
+ id:"MTS88",
+ name:"MTS88",
+ series:"HDMI Matrix",
+ category:"Video",
+ icon:"88",
+ desc:"8×8 HDMI matrix for professional AV routing.",
+ specs:["8×8","HDMI","4K30"],
+ details:{
+  inputs:"8 HDMI",
+  outputs:"8 HDMI",
+  resolution:"4K@30Hz",
+  control:"RS232 / optional TCP/IP"
+ }
+},
+
+{
+ id:"MTV",
+ name:"MTV Modular Matrix",
+ series:"Hybrid Matrix",
+ category:"Video",
+ icon:"MTV",
+ desc:"Modular hybrid video matrix platform.",
+ specs:["Modular","FPGA","4K","HDBaseT"],
+ details:{
+  cards:"HDMI / DVI / VGA / SDI / HDBT / 4K / Optical",
+  features:"Scaler, EDID, HDCP, HDBaseT, hot swap, scene recall",
+  control:"RS232 / IR / TCP/IP"
+ }
+},
+
+{
+ id:"MTV88",
+ name:"MTV88",
+ series:"Modular Matrix",
+ category:"Video",
+ icon:"88",
+ desc:"Up to 8×8 modular hybrid matrix.",
+ specs:["8×8","Modular","4K"],
+ details:{
+  capacity:"Up to 8×8",
+  features:"FPGA / scaler / EDID / HDCP / HDBaseT"
+ }
+},
+
+{
+ id:"MTV1616",
+ name:"MTV1616",
+ series:"Modular Matrix",
+ category:"Video",
+ icon:"16",
+ desc:"Large-scale modular matrix system.",
+ specs:["16×16","Modular","4K"],
+ details:{
+  capacity:"Up to 16×16",
+  features:"Modular I/O / scene management / EDID / HDCP"
+ }
+},
+
+{
+ id:"MTV3232",
+ name:"MTV3232",
+ series:"Modular Matrix",
+ category:"Video",
+ icon:"32",
+ desc:"Large 32×32 modular hybrid video matrix.",
+ specs:["32×32","Modular","4K"],
+ details:{
+  capacity:"Up to 32×32",
+  cards:"HDMI / DVI / VGA / SDI / HDBT / 4K / Optical",
+  control:"RS232 / TCP/IP"
+ }
+},
+
+{
+ id:"MTV-HD-4I",
+ name:"MTV-HD-4I",
+ series:"Input Card",
+ category:"Video",
+ icon:"I4",
+ desc:"Four HDMI input card with audio embedding.",
+ specs:["4 HDMI","Audio","EDID"],
+ details:{
+  inputs:"4 HDMI",
+  features:"EDID learning / audio embedding"
+ }
+},
+
+{
+ id:"MTV-SD-4I",
+ name:"MTV-SD-4I",
+ series:"SDI Input Card",
+ category:"Video",
+ icon:"SDI",
+ desc:"Four SDI input card with loop outputs.",
+ specs:["4 SDI","3G-SDI","Loop"],
+ details:{
+  inputs:"4 SDI",
+  formats:"SDI / HD-SDI / 3G-SDI",
+  bandwidth:"Up to 6.75Gbps"
+ }
+},
+
+{
+ id:"MTV-HD-4O",
+ name:"MTV-HD-4O",
+ series:"Output Card",
+ category:"Video",
+ icon:"O4",
+ desc:"Four HDMI output card with audio de-embedding.",
+ specs:["4 HDMI","Audio"],
+ details:{
+  outputs:"4 HDMI",
+  features:"Audio de-embedding"
+ }
+},
+
+{
+ id:"MTV-SD-4O",
+ name:"MTV-SD-4O",
+ series:"SDI Output Card",
+ category:"Video",
+ icon:"SDO",
+ desc:"Four SDI output card with loop.",
+ specs:["4 SDI","Loop"],
+ details:{
+  outputs:"4 SDI"
+ }
+},
+
+{
+ id:"MTV-BT-4O",
+ name:"MTV-BT-4O",
+ series:"HDBaseT Output",
+ category:"Video",
+ icon:"BT",
+ desc:"Four HDBT outputs for long-distance signal distribution.",
+ specs:["4 HDBT","70m","4K"],
+ details:{
+  outputs:"4 HDBT RJ45",
+  distance:"1080P up to 70m / 4K up to 40m",
+  bandwidth:"10.2Gbps",
+  control:"RS232 / TCP/IP",
+  audio:"PCM / Dolby / DTS / DTS-HD"
+ }
+},
+
+{
+ id:"MT-HD300",
+ name:"MT-HD300",
+ series:"PTZ Tracking Camera",
+ category:"Video",
+ icon:"PTZ",
+ desc:"4K PTZ tracking camera with AI human tracking.",
+ specs:["4K30","12×","AI Tracking","PoE"],
+ details:{
+  sensor:"Sony CMOS 1/2.8\"",
+  resolution:"8.5MP",
+  zoom:"12× optical",
+  wideAngle:"70.9°",
+  outputs:"HDMI / SDI / USB3 / LAN",
+  control:"RS232 / RS422 / RS485",
+  network:"10/100/1000",
+  pan:"±170°",
+  tilt:"-30° to +90°",
+  presets:"Up to 255",
+  protocols:"ONVIF / RTSP / RTMP / VISCA / PELCO"
+ }
+},
+
+{
+ id:"WMS-100",
+ name:"WMS-100",
+ series:"Wireless Presentation",
+ category:"Video",
+ icon:"WMS",
+ desc:"Wireless presentation and BYOM platform.",
+ specs:["4K","BYOM","16 Devices"],
+ details:{
+  devices:"Up to 16",
+  compatibility:"Windows / Mac / iPhone / iPad / Android",
+  protocols:"Miracast / AirPlay / Chromecast",
+  output:"HDMI up to 3840×2160",
+  byom:"USB camera and microphone",
+  ports:"USB3 / USB2 / USB-C / RJ45 / 3.5mm"
+ }
+},
+
+{
+ id:"PSC2016",
+ name:"PSC2016",
+ series:"Video Wall Processor",
+ category:"Video",
+ icon:"PSC",
+ desc:"Modular FPGA video wall and splicing processor.",
+ specs:["FPGA","Video Wall","4K"],
+ details:{
+  inputs:"HDMI / DP / DVI / VGA / CVBS / SDI / IP / 4K",
+  slots:"5 input slots / 4 output slots",
+  capacity:"Up to 20×16 depending on cards",
+  windows:"Up to 8 windows per output card",
+  scenes:"128 AV scenes + 5 audio scenes",
+  control:"Android / RS232 / LAN / 4.3-inch touch"
+ }
+},
+
+/* CONFERENCE */
+
+{
+ id:"MT1000S",
+ name:"MT1000S",
+ series:"Conference Controller",
+ category:"Conference",
+ icon:"C",
+ desc:"Wired conference controller with seven speaking modes.",
+ specs:["7 Modes","60+ Units","DSP"],
+ details:{
+  modes:"Chairman Priority / FIFO / LIFO / Speaker Limit / Free / Rotation / Request-to-Speak",
+  units:"60+ units",
+  speakers:"1–6 or unrestricted",
+  outputs:"4 parallel outputs",
+  dsp:"32-bit floating-point DSP",
+  control:"RS232 / central control"
+ }
+},
+
+{
+ id:"MT2000S",
+ name:"MT2000S",
+ series:"Conference Controller",
+ category:"Conference",
+ icon:"C2",
+ desc:"Conference controller with camera tracking and recording.",
+ specs:["Camera Tracking","USB Record","60+ Units"],
+ details:{
+  cameras:"4 camera inputs",
+  video:"2 video outputs",
+  protocols:"Pelco / VISCA",
+  control:"RS232 / RS485",
+  display:"4.3-inch TFT",
+  dsp:"32-bit DSP",
+  units:"60+"
+ }
+},
+
+{
+ id:"G-S30",
+ name:"G-S30",
+ series:"Digital Conference",
+ category:"Conference",
+ icon:"GS30",
+ desc:"Economic digital conference system.",
+ specs:["60–100 Units","Voting","Camera"],
+ details:{
+  lines:"3 RJ45 groups",
+  capacity:"60–100 base depending connection",
+  expansion:"Up to 256 / larger systems up to 1200",
+  modes:"FIFO / APPLY / FREE / LIMIT / VOICE",
+  speakers:"1–8",
+  timer:"0–1000s"
+ }
+},
+
+{
+ id:"G-T31",
+ name:"G-T31",
+ series:"Chairman Unit",
+ category:"Conference",
+ icon:"31",
+ desc:"Digital conference chairman unit.",
+ specs:["Chairman","Cardioid","20Hz–20kHz"],
+ details:{
+  type:"Chairman unit",
+  microphone:"Condenser cardioid",
+  response:"20Hz–20kHz",
+  maxSPL:"125dB",
+  snr:">80dB",
+  thd:"<0.05%"
+ }
+},
+
+{
+ id:"G-T32",
+ name:"G-T32",
+ series:"Delegate Unit",
+ category:"Conference",
+ icon:"32",
+ desc:"Digital conference delegate unit.",
+ specs:["Delegate","Cardioid","Daisy Chain"],
+ details:{
+  type:"Delegate unit",
+  microphone:"Condenser cardioid",
+  response:"20Hz–20kHz",
+  maxSPL:"125dB",
+  snr:">80dB"
+ }
+},
+
+{
+ id:"G-S40",
+ name:"G-S40",
+ series:"High-End Conference",
+ category:"Conference",
+ icon:"GS40",
+ desc:"High-end digital conference platform.",
+ specs:["AI NR","Voting","Tracking"],
+ details:{
+  functions:"Discussion / camera tracking / attendance / voting / AI noise reduction"
+ }
+},
+
+{
+ id:"G-T40",
+ name:"G-T40",
+ series:"Hybrid Conference Host",
+ category:"Conference",
+ icon:"GT40",
+ desc:"Dual wired/wireless conference host with camera and control.",
+ specs:["Wired/Wireless","20 Ch","200 Units"],
+ details:{
+  channels:"20 fixed channels",
+  units:"Up to 200 wireless units",
+  speakers:"1–6",
+  chairpersons:"Up to 6",
+  camera:"RS232 / RS485 / VISCA / Pelco",
+  video:"4×1 HDMI",
+  network:"LAN",
+  control:"PC / smartphone / tablet",
+  dante:"Optional Dante"
+ }
+},
+
+{
+ id:"G-T50",
+ name:"G-T50 5G",
+ series:"5G Full-Fusion Conference",
+ category:"Conference",
+ icon:"G5",
+ desc:"5G full-fusion conference platform.",
+ specs:["5G","Fusion","Conference"],
+ details:{
+  type:"5G full-fusion conference system"
+ }
+},
+
+{
+ id:"AI Conference Network Switch",
+ name:"AI Conference Network Switch",
+ series:"Conference Network",
+ category:"Conference",
+ icon:"SW",
+ desc:"Network switch designed for conference systems.",
+ specs:["AI","Network","Conference"],
+ details:{
+  type:"Conference network switch"
+ }
+},
+
+{
+ id:"IR Interpretation",
+ name:"IR Simultaneous Interpretation",
+ series:"Interpretation",
+ category:"Conference",
+ icon:"IR",
+ desc:"Infrared simultaneous interpretation system.",
+ specs:["IR","Interpretation"],
+ details:{
+  type:"Infrared simultaneous interpretation"
+ }
+},
+
+{
+ id:"Electronic Nameplate",
+ name:"Electronic Nameplate",
+ series:"Conference",
+ category:"Conference",
+ icon:"NAME",
+ desc:"Electronic meeting nameplate.",
+ specs:["Nameplate","Meeting"],
+ details:{
+  type:"Electronic nameplate"
+ }
+},
+
+/* PUBLIC BROADCAST */
+
+{
+ id:"IP-8260NX",
+ name:"IP-8260NX",
+ series:"Network Amplifier",
+ category:"Public Broadcasting",
+ icon:"260",
+ desc:"260W network amplifier with touchscreen.",
+ specs:["260W","70/100V","Network"],
+ details:{
+  power:"260W",
+  output:"4–16Ω / 70V / 100V",
+  network:"RJ45 100Mbps",
+  formats:"MP3 / WAV",
+  protocols:"RTP / UDP / TCP/IP / FTP",
+  display:"4.3-inch touchscreen"
+ }
+},
+
+{
+ id:"IP-9000",
+ name:"IP-9000",
+ series:"IP Public Address",
+ category:"Public Broadcasting",
+ icon:"IP9",
+ desc:"Professional IP public address platform.",
+ specs:["IP","PA","Network"],
+ details:{
+  type:"IP public address"
+ }
+},
+
+{
+ id:"M-5000",
+ name:"M-5000",
+ series:"Public Address",
+ category:"Public Broadcasting",
+ icon:"M5",
+ desc:"Professional public address system.",
+ specs:["PA","Professional"],
+ details:{
+  type:"Public address system"
+ }
+},
+
+{
+ id:"M-2000",
+ name:"M-2000",
+ series:"Public Address",
+ category:"Public Broadcasting",
+ icon:"M2",
+ desc:"Public address system.",
+ specs:["PA","Distributed"],
+ details:{
+  type:"Public address"
+ }
+},
+
+/* SHOW CONTROL */
+
+{
+ id:"IMMERSHOW",
+ name:"IMMERSHOW",
+ series:"Show Control",
+ category:"Show Control",
+ icon:"SHOW",
+ desc:"Professional immersive show control platform.",
+ specs:["Show Control","Immersive","Automation"],
+ details:{
+  type:"Immersive show control",
+  use:"Experience centers / exhibitions / entertainment"
+ }
+}
+
+];
+
+/* =========================
+   STATE
+========================= */
+
+let boq = [];
+let compareList = [];
+let currentPage = "home";
+
+/* =========================
+   HELPERS
+========================= */
+
+function getProduct(id){
+  return PRODUCTS.find(p => p.id === id);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function showToast(message){
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer = setTimeout(()=>{
+    toast.classList.remove("show");
+  },2500);
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+document.querySelectorAll(".nav button").forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+
+    goPage(btn.dataset.page);
+
+  });
+
+});
+
+function goPage(page){
+
+  currentPage = page;
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const target = document.getElementById("page-"+page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav button").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.page===page);
+  });
+
+  const titles = {
+    home:["MOTIVITY Engineering Suite","Professional AV • Video • Control • Network"],
+    designer:["Smart AV Designer","Engineering Design & System Architecture"],
+    products:["Product Intelligence","Professional MOTIVITY Product Catalog"],
+    solutions:["Integrated Solutions","Complete AV System Architectures"],
+    boq:["Bill of Quantities","BOQ • Equipment Schedule • Proposal"],
+    compare:["Product Comparison","Technical Comparison"]
+  };
+
+  const title = titles[page] || titles.home;
+
+  document.getElementById("pageTitle").textContent = title[0];
+  document.getElementById("pageSubtitle").textContent = title[1];
+
+  if(page==="boq"){
+    renderBOQ();
+  }
+
+  if(page==="compare"){
+    renderCompare();
+  }
+
+}
+
+/* =========================
+   LANGUAGE
+========================= */
+
+function toggleLanguage(){
+
+  currentLang = currentLang === "ar" ? "en" : "ar";
+
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("languageBtn").textContent =
+    currentLang === "ar" ? "EN" : "AR";
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+
+    const key = el.dataset.i18n;
+
+    if(T[currentLang][key]){
+      el.textContent = T[currentLang][key];
+    }
+
+  });
+
+  renderProducts();
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+
+function initProductCategories(){
+
+  const select = document.getElementById("productCategory");
+
+  const categories = [...new Set(PRODUCTS.map(p=>p.category))];
+
+  categories.forEach(category=>{
+
+    const option = document.createElement("option");
+
+    option.value = category;
+    option.textContent = category;
+
+    select.appendChild(option);
+
+  });
+
+}
+
+function renderProducts(){
+
+  const grid = document.getElementById("productsGrid");
+
+  if(!grid) return;
+
+  const query =
+    (document.getElementById("productSearch")?.value || "")
+    .trim()
+    .toLowerCase();
+
+  const category =
+    document.getElementById("productCategory")?.value || "all";
+
+  let list = PRODUCTS.filter(p=>{
+
+    const text = [
+      p.id,
+      p.name,
+      p.series,
+      p.category,
+      p.desc,
+      Object.values(p.details || {}).join(" ")
+    ].join(" ").toLowerCase();
+
+    const matchQuery = !query || text.includes(query);
+
+    const matchCategory =
+      category==="all" || p.category===category;
+
+    return matchQuery && matchCategory;
+
+  });
+
+  grid.innerHTML = list.map(productCard).join("");
+
+}
+
+function productCard(p){
+
+  return `
+
+    <div class="card product">
+
+      <div class="product-visual">
+
+        <div class="product-category">
+          ${escapeHTML(p.category)}
+        </div>
+
+        <div class="product-logo">
+          ${escapeHTML(p.icon)}
+        </div>
+
+      </div>
+
+      <div class="product-body">
+
+        <div class="product-name">
+          ${escapeHTML(p.name)}
+        </div>
+
+        <div class="product-series">
+          ${escapeHTML(p.series)}
+        </div>
+
+        <div class="product-desc">
+          ${escapeHTML(p.desc)}
+        </div>
+
+        <div class="specs">
+
+          ${(p.specs || []).map(s=>`
+            <span class="spec">${escapeHTML(s)}</span>
+          `).join("")}
+
+        </div>
+
+        <div class="product-actions">
+
+          <button
+            class="btn btn-blue"
+            onclick="showProduct('${escapeHTML(p.id)}')"
+          >
+            التفاصيل
+          </button>
+
+          <button
+            class="btn btn-primary"
+            onclick="addProduct('${escapeHTML(p.id)}')"
+          >
+            + BOQ
+          </button>
+
+          <button
+            class="btn"
+            onclick="toggleCompare('${escapeHTML(p.id)}')"
+          >
+            ⇄
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+function clearProductFilters(){
+
+  document.getElementById("productSearch").value = "";
+  document.getElementById("productCategory").value = "all";
+
+  renderProducts();
+
+}
+
+function showProduct(id){
+
+  const p = getProduct(id);
+
+  if(!p) return;
+
+  document.getElementById("modalTitle").textContent =
+    `${p.name} — ${p.series}`;
+
+  const details = Object.entries(p.details || {});
+
+  document.getElementById("modalBody").innerHTML = `
+
+    <div style="
+      display:grid;
+      grid-template-columns:110px 1fr;
+      gap:18px;
+      align-items:start;
+    ">
+
+      <div class="product-logo" style="margin:auto">
+        ${escapeHTML(p.icon)}
+      </div>
+
+      <div>
+
+        <div style="
+          font-size:20px;
+          font-weight:900;
+          margin-bottom:5px;
+        ">
+          ${escapeHTML(p.name)}
+        </div>
+
+        <div style="
+          color:var(--blue);
+          font-size:11px;
+          margin-bottom:12px;
+        ">
+          ${escapeHTML(p.category)}
+        </div>
+
+        <div style="
+          color:#9eb0c0;
+          font-size:12px;
+          line-height:1.9;
+          margin-bottom:15px;
+        ">
+          ${escapeHTML(p.desc)}
+        </div>
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(2,1fr);
+          gap:8px;
+        ">
+
+          ${details.map(([key,value])=>`
+
+            <div style="
+              padding:10px;
+              background:#080e16;
+              border:1px solid var(--line);
+              border-radius:8px;
+            ">
+
+              <div style="
+                color:#708499;
+                font-size:9px;
+              ">
+                ${escapeHTML(key)}
+              </div>
+
+              <div style="
+                margin-top:3px;
+                font-size:11px;
+                font-weight:700;
+              ">
+                ${escapeHTML(value)}
+              </div>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+        <div style="margin-top:15px">
+
+          <button
+            class="btn btn-primary"
+            onclick="addProduct('${escapeHTML(p.id)}');closeModal()"
+          >
+            + إضافة إلى BOQ
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+  document.getElementById("productModal").classList.add("show");
+
+}
+
+function closeModal(){
+  document.getElementById("productModal").classList.remove("show");
+}
+
+document.getElementById("productModal").addEventListener("click",e=>{
+
+  if(e.target.id==="productModal"){
+    closeModal();
+  }
+
+});
+
+/* =========================
+   BOQ
+========================= */
+
+function addProduct(id,qty=1){
+
+  const p = getProduct(id);
+
+  if(!p) return;
+
+  const existing = boq.find(item=>item.id===id);
+
+  if(existing){
+    existing.qty += Number(qty);
+  }else{
+    boq.push({
+      id:p.id,
+      qty:Number(qty)
+    });
+  }
+
+  renderBOQ();
+
+  showToast(
+    currentLang==="ar"
+      ? `تمت إضافة ${p.name} إلى BOQ`
+      : `${p.name} added to BOQ`
+  );
+
+}
+
+function removeProduct(id){
+
+  boq = boq.filter(item=>item.id!==id);
+
+  renderBOQ();
+
+}
+
+function updateQty(id,value){
+
+  const item = boq.find(x=>x.id===id);
+
+  if(!item) return;
+
+  const qty = Math.max(1,Number(value)||1);
+
+  item.qty = qty;
+
+  renderBOQ();
+
+}
+
+function clearBOQ(){
+
+  if(!boq.length){
+    showToast("BOQ فارغ");
+    return;
+  }
+
+  boq = [];
+
+  renderBOQ();
+
+  showToast("تم مسح جدول الكميات");
+
+}
+
+function renderBOQ(){
+
+  const body = document.getElementById("boqBody");
+
+  if(!body) return;
+
+  if(!boq.length){
+
+    body.innerHTML = `
+
+      <tr>
+
+        <td colspan="6" style="
+          text-align:center;
+          padding:45px;
+          color:#617488;
+        ">
+          لا توجد منتجات في BOQ — أضف المنتجات من الكتالوج
+        </td>
+
+      </tr>
+
+    `;
+
+  }else{
+
+    body.innerHTML = boq.map((item,index)=>{
+
+      const p = getProduct(item.id);
+
+      if(!p) return "";
+
+      return `
+
+        <tr>
+
+          <td>${index+1}</td>
+
+          <td>
+            <strong>${escapeHTML(p.name)}</strong>
+          </td>
+
+          <td>${escapeHTML(p.category)}</td>
+
+          <td>${escapeHTML(p.desc)}</td>
+
+          <td>
+
+            <input
+              class="qty-input"
+              type="number"
+              min="1"
+              value="${item.qty}"
+              onchange="updateQty('${escapeHTML(item.id)}',this.value)"
+            >
+
+          </td>
+
+          <td>
+
+            <button
+              class="btn btn-danger"
+              onclick="removeProduct('${escapeHTML(item.id)}')"
+            >
+              حذف
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+  }
+
+  const units = boq.reduce((sum,item)=>sum+item.qty,0);
+
+  document.getElementById("summaryProducts").textContent = boq.length;
+  document.getElementById("summaryUnits").textContent = units;
+  document.getElementById("summaryProject").textContent =
+    document.getElementById("projectName")?.value || "—";
+  document.getElementById("summaryTotal").textContent = boq.length;
+
+}
+
+/* =========================
+   COMPARE
+========================= */
+
+function toggleCompare(id){
+
+  if(compareList.includes(id)){
+
+    compareList = compareList.filter(x=>x!==id);
+
+    showToast("تمت إزالة المنتج من المقارنة");
+
+  }else{
+
+    if(compareList.length>=4){
+
+      showToast("يمكن مقارنة 4 منتجات كحد أقصى");
+
+      return;
+    }
+
+    compareList.push(id);
+
+    showToast("تمت إضافة المنتج للمقارنة");
+
+  }
+
+  renderCompare();
+
+}
+
+function renderCompare(){
+
+  const grid = document.getElementById("compareGrid");
+
+  if(!grid) return;
+
+  if(!compareList.length){
+
+    grid.innerHTML = `
+
+      <div class="card" style="
+        grid-column:1/-1;
+        padding:50px;
+        text-align:center;
+        color:#617488;
+      ">
+        لم تتم إضافة منتجات للمقارنة.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  grid.innerHTML = compareList.map(id=>{
+
+    const p = getProduct(id);
+
+    if(!p) return "";
+
+    return `
+
+      <div class="card compare-card">
+
+        <h3>${escapeHTML(p.name)}</h3>
+
+        <div style="
+          color:var(--blue);
+          font-size:9px;
+          margin-bottom:10px;
+        ">
+          ${escapeHTML(p.series)}
+        </div>
+
+        ${(Object.entries(p.details || {})).map(([k,v])=>`
+
+          <div class="compare-row">
+
+            <span>${escapeHTML(k)}</span>
+
+            <span>${escapeHTML(v)}</span>
+
+          </div>
+
+        `).join("")}
+
+        <button
+          class="btn btn-danger"
+          style="margin-top:12px"
+          onclick="toggleCompare('${escapeHTML(p.id)}')"
+        >
+          إزالة
+        </button>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+/* =========================
+   SMART DESIGNER
+========================= */
+
+function buildSystem(){
+
+  const type =
+    document.getElementById("projectType").value;
+
+  const people =
+    Number(document.getElementById("people").value)||0;
+
+  const length =
+    Number(document.getElementById("length").value)||0;
+
+  const width =
+    Number(document.getElementById("width").value)||0;
+
+  const height =
+    Number(document.getElementById("height").value)||0;
+
+  const mics =
+    Number(document.getElementById("micCount").value)||0;
+
+  const displays =
+    Number(document.getElementById("displayCount").value)||0;
+
+  const camera =
+    document.getElementById("camera").value==="yes";
+
+  const network =
+    document.getElementById("networkAudio").value==="yes";
+
+  const area = length * width;
+
+  /*
+    Remove previous automatically generated items.
+    We rebuild BOQ based on the project.
+  */
+
+  boq = [];
+
+  if(type==="conference"){
+
+    addSilent("MT1000S",1);
+    addSilent("G-T31",1);
+    addSilent("G-T32",Math.max(1,mics-1));
+    addSilent("MT-HD300",camera?1:0);
+    addSilent("MTS44",displays>1?1:0);
+    addSilent("AV1000M-II",1);
+    addSilent("AT-12",Math.max(2,Math.ceil(people/45)));
+
+    if(network){
+      addSilent("Dante 44",1);
+      addSilent("Stride-Pro",1);
+    }
+
+    if(displays>0){
+      addSilent("WMS-100",1);
+    }
+
+  }
+
+  else if(type==="government"){
+
+    addSilent("M-8III",Math.max(4,Math.ceil(people/500)));
+    addSilent("M-25BW",Math.max(2,Math.ceil(people/1000)));
+    addSilent("AT-10",Math.max(2,Math.ceil(people/250)));
+    addSilent("MD1810",1);
+    addSilent("DM48 Pro",1);
+    addSilent("AV2000M",1);
+    addSilent("MTV3232",1);
+    addSilent("PSC2016",1);
+
+    if(camera){
+      addSilent("MT-HD300",2);
+    }
+
+    if(network){
+      addSilent("Stride-Pro",1);
+      addSilent("Dante 88",1);
+    }
+
+  }
+
+  else if(type==="classroom"){
+
+    addSilent("AT-12",2);
+    addSilent("MD1810",1);
+    addSilent("AV1000M-II",1);
+    addSilent("WMS-100",1);
+
+    if(camera){
+      addSilent("MT-HD300",1);
+    }
+
+    if(network){
+      addSilent("PDC",Math.max(2,Math.ceil(area/40)));
+    }
+
+  }
+
+  else if(type==="hotel"){
+
+    addSilent("PAL83",Math.max(2,Math.ceil(area/70)));
+    addSilent("DM48 Pro",1);
+    addSilent("MD1810",1);
+    addSilent("AV1000M-II",1);
+    addSilent("WMS-100",1);
+
+    if(network){
+      addSilent("PDL",Math.max(2,Math.ceil(area/60)));
+      addSilent("Stride Matrix",1);
+    }
+
+    if(camera){
+      addSilent("MT-HD300",1);
+    }
+
+  }
+
+  else if(type==="mosque"){
+
+    const speakers = Math.max(2,Math.ceil(area/50));
+
+    addSilent("PAL83",speakers);
+    addSilent("DM48 Pro",1);
+    addSilent("MD1810",1);
+
+    if(network){
+      addSilent("PDC",Math.max(2,Math.ceil(area/60)));
+    }
+
+  }
+
+  else if(type==="concert"){
+
+    addSilent("M-8III",Math.max(4,Math.ceil(people/600)));
+    addSilent("M-25BW",Math.max(2,Math.ceil(people/1000)));
+    addSilent("MTL-700",Math.max(2,Math.ceil(people/1000)));
+    addSilent("MD1810",1);
+    addSilent("DM48 Pro",2);
+
+    if(network){
+      addSilent("Stride-Pro",1);
+      addSilent("Dante 88",1);
+    }
+
+  }
+
+  else if(type==="control"){
+
+    addSilent("AV2000M",1);
+    addSilent("PSC2016",1);
+    addSilent("MTV1616",1);
+    addSilent("Dante 88",1);
+    addSilent("Stride-Pro",1);
+
+    if(camera){
+      addSilent("MT-HD300",2);
+    }
+
+  }
+
+  else if(type==="hybrid"){
+
+    addSilent("G-S40",1);
+    addSilent("G-T40",1);
+    addSilent("MT-HD300",Math.max(1,Math.ceil(displays/2)));
+    addSilent("WMS-100",1);
+    addSilent("AV1000M-II",1);
+    addSilent("MTS44",1);
+    addSilent("Dante 44",1);
+
+  }
+
+  renderBOQ();
+  renderArchitecture();
+  renderRecommendations();
+
+  goPage("designer");
+
+  showToast(
+    currentLang==="ar"
+      ? "تم توليد التصميم والـ BOQ والرسم المعماري"
+      : "Design, BOQ and architecture generated"
+  );
+
+}
+
+function addSilent(id,qty){
+
+  if(!qty || qty<=0) return;
+
+  const p = getProduct(id);
+
+  if(!p) return;
+
+  const existing = boq.find(item=>item.id===id);
+
+  if(existing){
+    existing.qty += qty;
+  }else{
+    boq.push({
+      id:id,
+      qty:qty
+    });
+  }
+
+}
+
+/* =========================
+   ARCHITECTURE
+========================= */
+
+function renderArchitecture(){
+
+  const canvas =
+    document.getElementById("architectureCanvas");
+
+  if(!canvas) return;
+
+  const has = id => boq.some(x=>x.id===id);
+
+  const findAny = ids => {
+
+    for(const id of ids){
+
+      const item = boq.find(x=>x.id===id);
+
+      if(item){
+
+        const p = getProduct(id);
+
+        return p ? `${p.name} × ${item.qty}` : id;
+
+      }
+
+    }
+
+    return "";
+
+  };
+
+  const mic = findAny([
+    "G-S40",
+    "G-T40",
+    "G-T31",
+    "MT1000S",
+    "G-S30"
+  ]) || "Conference / Microphones";
+
+  const video = findAny([
+    "MT-HD300",
+    "WMS-100",
+    "MTS44",
+    "MTV",
+    "MTV3232"
+  ]) || "Video / BYOM";
+
+  const processing = findAny([
+    "MD1810",
+    "DM48 Pro",
+    "Stride-Pro"
+  ]) || "Audio Processing";
+
+  const control = findAny([
+    "AV2000M",
+    "AV1000M-II",
+    "MT-ALLINONE"
+  ]) || "Central AV Control";
+
+  const routing = findAny([
+    "MTS44",
+    "MTS88",
+    "MTV",
+    "MTV1616",
+    "MTV3232"
+  ]) || "Signal Routing";
+
+  const network = findAny([
+    "Dante 88",
+    "Dante 44",
+    "Stride Matrix",
+    "Stride-Pro"
+  ]) || "Network / Dante";
+
+  const speaker = findAny([
+    "M-8III",
+    "M-25BW",
+    "AT-12",
+    "AT-10",
+    "NX-312",
+    "NX-3118",
+    "PAL83",
+    "DB-25",
+    "DB-218",
+    "PDM",
+    "PDL",
+    "PDC"
+  ]) || "Loudspeakers";
+
+  const display = findAny([
+    "PSC2016",
+    "MTS44",
+    "MTV",
+    "WMS-100"
+  ]) || "Displays";
+
+  const recording =
+    has("WMS-100") || has("MT-HD300")
+      ? "Recording / Streaming"
+      : "Presentation / Recording";
+
+  canvas.innerHTML = `
+
+    <div class="arch-flow">
+
+      <div class="arch-column">
+
+        <h4>INPUTS</h4>
+
+        <div class="arch-node blue">
+          <div class="arch-node-title">
+            ${escapeHTML(mic)}
+          </div>
+          <div class="arch-node-sub">
+            Conference / Wired / Wireless
+          </div>
+        </div>
+
+        <div class="arch-node blue">
+          <div class="arch-node-title">
+            ${escapeHTML(video)}
+          </div>
+          <div class="arch-node-sub">
+            HDMI / USB / PTZ / BYOM
+          </div>
+        </div>
+
+        <div class="arch-node blue">
+          <div class="arch-node-title">
+            Content Sources
+          </div>
+          <div class="arch-node-sub">
+            Laptop / Presentation / Network
+          </div>
+        </div>
+
+      </div>
+
+      <div class="arch-column">
+
+        <h4>PROCESSING</h4>
+
+        <div class="arch-node main">
+          <div class="arch-node-title">
+            ${escapeHTML(processing)}
+          </div>
+          <div class="arch-node-sub">
+            DSP / Mixer / Audio Processing
+          </div>
+        </div>
+
+        <div class="arch-node main">
+          <div class="arch-node-title">
+            ${escapeHTML(control)}
+          </div>
+          <div class="arch-node-sub">
+            Central AV Management / Control
+          </div>
+        </div>
+
+        <div class="arch-node main">
+          <div class="arch-node-title">
+            ${escapeHTML(routing)}
+          </div>
+          <div class="arch-node-sub">
+            Matrix / Scaler / Signal Routing
+          </div>
+        </div>
+
+        <div class="arch-node green">
+          <div class="arch-node-title">
+            ${escapeHTML(network)}
+          </div>
+          <div class="arch-node-sub">
+            Dante / IP / Network Audio
+          </div>
+        </div>
+
+      </div>
+
+      <div class="arch-column">
+
+        <h4>OUTPUTS</h4>
+
+        <div class="arch-node">
+          <div class="arch-node-title">
+            Amplification
+          </div>
+          <div class="arch-node-sub">
+            Professional Power Amplifiers
+          </div>
+        </div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">
+            ${escapeHTML(speaker)}
+          </div>
+          <div class="arch-node-sub">
+            Main / Fill / Sub / Distributed
+          </div>
+        </div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">
+            ${escapeHTML(display)}
+          </div>
+          <div class="arch-node-sub">
+            Displays / Video Wall / Presentation
+          </div>
+        </div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">
+            ${escapeHTML(recording)}
+          </div>
+          <div class="arch-node-sub">
+            USB / IP / Streaming
+          </div>
+        </div>
+
+      </div>
+
+      <div class="arch-arrow a1"></div>
+      <div class="arch-arrow a2"></div>
+
+    </div>
+
+  `;
+
+}
+
+/* =========================
+   RECOMMENDATIONS
+========================= */
+
+function renderRecommendations(){
+
+  const box =
+    document.getElementById("recommendations");
+
+  const type =
+    document.getElementById("projectType").value;
+
+  const people =
+    Number(document.getElementById("people").value)||0;
+
+  const length =
+    Number(document.getElementById("length").value)||0;
+
+  const width =
+    Number(document.getElementById("width").value)||0;
+
+  const height =
+    Number(document.getElementById("height").value)||0;
+
+  const area = length * width;
+
+  const recommendations = [];
+
+  recommendations.push({
+    title:"Coverage",
+    text:
+      `مساحة المشروع التقريبية ${area.toFixed(1)} m²، والارتفاع ${height.toFixed(1)} m. يجب ضبط التغطية النهائية وفق مخطط معماري فعلي وارتفاع السقف ومواقع المستمعين.`
+  });
+
+  if(type==="mosque"){
+
+    recommendations.push({
+      title:"Speaker Placement",
+      text:
+        "للمساجد يفضل اعتماد توزيع حائطي/موزع وفق طبيعة المكان مع تجنب توجيه السماعات مباشرة إلى الأسطح العاكسة قدر الإمكان."
+    });
+
+  }
+
+  if(type==="conference"){
+
+    recommendations.push({
+      title:"Conference",
+      text:
+        `عدد الميكروفونات المدخل ${document.getElementById("micCount").value}. يجب مراجعة عدد الوحدات الفعلية ونظام إدارة المتحدثين وفق شكل الطاولات.`
+    });
+
+  }
+
+  if(people>=500){
+
+    recommendations.push({
+      title:"Large Audience",
+      text:
+        "عدد الحضور كبير؛ يوصى بدراسة التغطية الصوتية والـ SPL والـ delay zones بصورة هندسية تفصيلية قبل التنفيذ."
+    });
+
+  }
+
+  if(height>=5){
+
+    recommendations.push({
+      title:"High Ceiling",
+      text:
+        "الارتفاع الكبير قد يتطلب معالجة خاصة للتغطية الرأسية وتوزيع السماعات أو استخدام line-array حسب حجم القاعة."
+    });
+
+  }
+
+  recommendations.push({
+    title:"Signal Flow",
+    text:
+      "الرسم المعماري المرفق يوضح المسار المنطقي من مصادر الإدخال إلى المعالجة والتحكم والتوزيع ثم المخرجات."
+  });
+
+  box.innerHTML = recommendations.map(r=>`
+
+    <div class="rec">
+
+      <div class="rec-title">
+        ${escapeHTML(r.title)}
+      </div>
+
+      <div class="rec-text">
+        ${escapeHTML(r.text)}
+      </div>
+
+    </div>
+
+  `).join("");
+
+}
+
+/* =========================
+   SOLUTIONS
+========================= */
+
+const SOLUTIONS = {
+
+  government:[
+    ["M-8III",4],
+    ["M-25BW",2],
+    ["AT-10",4],
+    ["MD1810",1],
+    ["DM48 Pro",1],
+    ["AV2000M",1],
+    ["MTV3232",1],
+    ["PSC2016",1]
+  ],
+
+  conference:[
+    ["MT1000S",1],
+    ["G-T31",1],
+    ["G-T32",12],
+    ["MT-HD300",1],
+    ["AV1000M-II",1],
+    ["MTS44",1],
+    ["WMS-100",1]
+  ],
+
+  dante:[
+    ["Stride Matrix",1],
+    ["Stride Host",1],
+    ["Stride-Pro",1],
+    ["Dante 88",1],
+    ["PDM",4],
+    ["PDL",4],
+    ["PDC",4]
+  ],
+
+  video:[
+    ["MTV3232",1],
+    ["PSC2016",1],
+    ["MT-HD300",2],
+    ["WMS-100",1]
+  ],
+
+  control:[
+    ["AV2000M",1],
+    ["PSC2016",1],
+    ["MTV1616",1],
+    ["Dante 88",1],
+    ["Stride-Pro",1]
+  ],
+
+  hybrid:[
+    ["G-S40",1],
+    ["G-T40",1],
+    ["MT-HD300",2],
+    ["WMS-100",1],
+    ["AV1000M-II",1],
+    ["MTS44",1],
+    ["Dante 44",1]
+  ]
+
+};
+
+function applySolution(key){
+
+  boq = [];
+
+  const items = SOLUTIONS[key] || [];
+
+  items.forEach(([id,qty])=>addSilent(id,qty));
+
+  renderBOQ();
+  renderArchitecture();
+  renderRecommendations();
+
+  goPage("boq");
+
+  showToast("تم تحميل الحل إلى BOQ");
+
+}
+
+/* =========================
+   SAVE / LOAD
+========================= */
+
+function getProjectData(){
+
+  return {
+
+    currentLang,
+
+    project:{
+      name:document.getElementById("projectName").value,
+      type:document.getElementById("projectType").value,
+      people:document.getElementById("people").value,
+      length:document.getElementById("length").value,
+      width:document.getElementById("width").value,
+      height:document.getElementById("height").value,
+      micCount:document.getElementById("micCount").value,
+      displayCount:document.getElementById("displayCount").value,
+      camera:document.getElementById("camera").value,
+      networkAudio:document.getElementById("networkAudio").value,
+      notes:document.getElementById("projectNotes").value
+    },
+
+    boq,
+    compareList
+
+  };
+
+}
+
+function saveProject(){
+
+  localStorage.setItem(
+    "motivity_project_v2026",
+    JSON.stringify(getProjectData())
+  );
+
+  showToast("تم حفظ المشروع على هذا الجهاز");
+
+}
+
+function loadProject(){
+
+  const raw =
+    localStorage.getItem("motivity_project_v2026");
+
+  if(!raw){
+
+    showToast("لا يوجد مشروع محفوظ");
+
+    return;
+  }
+
+  try{
+
+    const data = JSON.parse(raw);
+
+    const p = data.project || {};
+
+    document.getElementById("projectName").value =
+      p.name || "";
+
+    document.getElementById("projectType").value =
+      p.type || "conference";
+
+    document.getElementById("people").value =
+      p.people || 100;
+
+    document.getElementById("length").value =
+      p.length || 12;
+
+    document.getElementById("width").value =
+      p.width || 8;
+
+    document.getElementById("height").value =
+      p.height || 3.5;
+
+    document.getElementById("micCount").value =
+      p.micCount || 12;
+
+    document.getElementById("displayCount").value =
+      p.displayCount || 2;
+
+    document.getElementById("camera").value =
+      p.camera || "yes";
+
+    document.getElementById("networkAudio").value =
+      p.networkAudio || "yes";
+
+    document.getElementById("projectNotes").value =
+      p.notes || "";
+
+    boq = Array.isArray(data.boq) ? data.boq : [];
+
+    compareList =
+      Array.isArray(data.compareList)
+        ? data.compareList
+        : [];
+
+    if(data.currentLang && data.currentLang!==currentLang){
+      toggleLanguage();
+    }
+
+    renderBOQ();
+    renderCompare();
+    renderArchitecture();
+    renderRecommendations();
+
+    showToast("تم استرجاع المشروع");
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast("تعذر قراءة المشروع المحفوظ");
+
+  }
+
+}
+
+/* =========================
+   PRINTABLE SVG ARCHITECTURE
+========================= */
+
+function printableArchitectureSVG(){
+
+  const W = 1120;
+  const H = 610;
+
+  const safe = value =>
+    escapeHTML(value);
+
+  const find = ids => {
+
+    for(const id of ids){
+
+      const item = boq.find(x=>x.id===id);
+
+      if(item){
+
+        const p = getProduct(id);
+
+        if(p){
+          return `${p.name} × ${item.qty}`;
+        }
+
+      }
+
+    }
+
+    return "";
+
+  };
+
+  const input1 =
+    find([
+      "G-S40",
+      "G-T40",
+      "G-T31",
+      "MT1000S",
+      "G-S30"
+    ]) || "Conference / Microphones";
+
+  const input2 =
+    find([
+      "MT-HD300",
+      "WMS-100",
+      "MTS44",
+      "MTV"
+    ]) || "Video / BYOM / HDMI";
+
+  const input3 =
+    "Laptop / Content / Network";
+
+  const proc1 =
+    find([
+      "MD1810",
+      "DM48 Pro",
+      "Stride-Pro"
+    ]) || "Audio DSP / Mixer";
+
+  const proc2 =
+    find([
+      "AV2000M",
+      "AV1000M-II",
+      "MT-ALLINONE"
+    ]) || "Central AV Control";
+
+  const proc3 =
+    find([
+      "MTS44",
+      "MTS88",
+      "MTV",
+      "MTV1616",
+      "MTV3232"
+    ]) || "Signal Routing";
+
+  const proc4 =
+    find([
+      "Dante 88",
+      "Dante 44",
+      "Stride Matrix",
+      "Stride-Pro"
+    ]) || "Network / Dante";
+
+  const out1 =
+    find([
+      "M-8III",
+      "AT-12",
+      "NX-312",
+      "PAL83",
+      "DB-25",
+      "PDM",
+      "PDL",
+      "PDC"
+    ]) || "Loudspeakers";
+
+  const out2 =
+    find([
+      "M-25BW",
+      "NX-3118",
+      "DB-218"
+    ]) || "Subwoofer / LF";
+
+  const out3 =
+    find([
+      "PSC2016",
+      "MTS44",
+      "MTV",
+      "WMS-100"
+    ]) || "Displays / Video Wall";
+
+  const out4 =
+    find([
+      "MT-HD300",
+      "WMS-100"
+    ]) || "Recording / Streaming";
+
+  const node = (
+    x,
+    y,
+    w,
+    h,
+    title,
+    sub,
+    accent="#243649"
+  ) => `
+
+    <g>
+
+      <rect
+        x="${x}"
+        y="${y}"
+        width="${w}"
+        height="${h}"
+        rx="12"
+        fill="#0d1621"
+        stroke="${accent}"
+        stroke-width="1.5"
+      />
+
+      <text
+        x="${x+w/2}"
+        y="${y+25}"
+        fill="#f8fafc"
+        font-size="14"
+        font-family="Arial"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        ${safe(title)}
+      </text>
+
+      <text
+        x="${x+w/2}"
+        y="${y+46}"
+        fill="#8fa4b8"
+        font-size="10"
+        font-family="Arial"
+        text-anchor="middle"
+      >
+        ${safe(sub)}
+      </text>
+
+    </g>
+  `;
+
+  const arrow = (x1,y1,x2,y2) => `
+
+    <line
+      x1="${x1}"
+      y1="${y1}"
+      x2="${x2}"
+      y2="${y2}"
+      stroke="#38bdf8"
+      stroke-width="2"
+      marker-end="url(#arrow)"
+    />
+
+  `;
+
+  return `
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="${W}"
+  height="${H}"
+  viewBox="0 0 ${W} ${H}"
+>
+
+<defs>
+
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+
+    <stop offset="0%" stop-color="#07101a"/>
+    <stop offset="100%" stop-color="#0b111b"/>
+
+  </linearGradient>
+
+  <linearGradient id="redNode" x1="0" y1="0" x2="1" y2="1">
+
+    <stop offset="0%" stop-color="#321016"/>
+    <stop offset="100%" stop-color="#0d1621"/>
+
+  </linearGradient>
+
+  <marker
+    id="arrow"
+    markerWidth="8"
+    markerHeight="8"
+    refX="7"
+    refY="3"
+    orient="auto"
+  >
+
+    <path d="M0,0 L8,3 L0,6 Z" fill="#38bdf8"/>
+
+  </marker>
+
+</defs>
+
+<rect
+  x="0"
+  y="0"
+  width="${W}"
+  height="${H}"
+  rx="18"
+  fill="url(#bg)"
+  stroke="#26384a"
+/>
+
+<text
+  x="40"
+  y="42"
+  fill="#e60012"
+  font-family="Arial"
+  font-size="21"
+  font-weight="900"
+>
+  MOTIVITY
+</text>
+
+<text
+  x="40"
+  y="64"
+  fill="#91a5b9"
+  font-family="Arial"
+  font-size="10"
+>
+  SYSTEM ARCHITECTURE • ENGINEERING AV DESIGN
+</text>
+
+<text
+  x="160"
+  y="42"
+  fill="#f8fafc"
+  font-family="Arial"
+  font-size="17"
+  font-weight="700"
+>
+  ${safe(document.getElementById("projectName").value || "AV PROJECT")}
+</text>
+
+<text
+  x="160"
+  y="64"
+  fill="#71859a"
+  font-family="Arial"
+  font-size="10"
+>
+  ${safe(document.getElementById("projectType").selectedOptions[0]?.text || "")}
+</text>
+
+<!-- section titles -->
+
+<text x="145" y="108"
+  fill="#38bdf8"
+  font-family="Arial"
+  font-size="12"
+  font-weight="700"
+  text-anchor="middle">
+  INPUTS
+</text>
+
+<text x="560" y="108"
+  fill="#e60012"
+  font-family="Arial"
+  font-size="12"
+  font-weight="700"
+  text-anchor="middle">
+  PROCESSING / CONTROL
+</text>
+
+<text x="975" y="108"
+  fill="#22c55e"
+  font-family="Arial"
+  font-size="12"
+  font-weight="700"
+  text-anchor="middle">
+  OUTPUTS
+</text>
+
+${node(35,130,220,82,input1,"Conference / Microphones","#28506a")}
+
+${node(35,245,220,82,input2,"Camera / BYOM / Video","#28506a")}
+
+${node(35,360,220,82,input3,"Laptop / Content / Network","#28506a")}
+
+${node(430,130,260,82,proc1,"DSP / Mixer / Audio","#7b2630")}
+
+${node(430,245,260,82,proc2,"Central AV Management","#7b2630")}
+
+${node(430,360,260,82,proc3,"Matrix / Signal Routing","#7b2630")}
+
+${node(430,475,260,82,proc4,"Dante / IP / Network","#22603f")}
+
+${node(865,130,220,82,out1,"Main / Fill / Distributed","#31533f")}
+
+${node(865,245,220,82,out2,"Low Frequency","#31533f")}
+
+${node(865,360,220,82,out3,"Display / Video Wall","#31533f")}
+
+${node(865,475,220,82,out4,"USB / IP / Streaming","#31533f")}
+
+${arrow(255,171,430,171)}
+${arrow(255,286,430,286)}
+${arrow(255,401,430,401)}
+
+${arrow(690,171,865,171)}
+${arrow(690,286,865,286)}
+${arrow(690,401,865,401)}
+${arrow(690,516,865,516)}
+
+<text
+  x="560"
+  y="592"
+  fill="#5e7286"
+  font-family="Arial"
+  font-size="9"
+  text-anchor="middle"
+>
+  Preliminary engineering architecture — final implementation shall be verified against architectural drawings and site measurements.
+</text>
+
+</svg>
+
+  `;
+
+}
+
+/* =========================
+   PRINT PROPOSAL
+========================= */
+
+function printProposal(){
+
+  renderBOQ();
+  renderArchitecture();
+
+  const projectName =
+    document.getElementById("projectName").value ||
+    "MOTIVITY AV PROJECT";
+
+  const type =
+    document.getElementById("projectType")
+      .selectedOptions[0]?.text || "";
+
+  const people =
+    document.getElementById("people").value;
+
+  const length =
+    document.getElementById("length").value;
+
+  const width =
+    document.getElementById("width").value;
+
+  const height =
+    document.getElementById("height").value;
+
+  const notes =
+    document.getElementById("projectNotes").value;
+
+  const svg =
+    printableArchitectureSVG();
+
+  const boqRows = boq.map((item,index)=>{
+
+    const p = getProduct(item.id);
+
+    if(!p) return "";
+
+    return `
+
+      <tr>
+
+        <td>${index+1}</td>
+
+        <td>
+          <strong>${escapeHTML(p.name)}</strong>
+        </td>
+
+        <td>${escapeHTML(p.series)}</td>
+
+        <td>${escapeHTML(p.category)}</td>
+
+        <td>${escapeHTML(p.desc)}</td>
+
+        <td style="text-align:center">
+          ${item.qty}
+        </td>
+
+      </tr>
+
+    `;
+
+  }).join("");
+
+  const totalUnits =
+    boq.reduce((sum,item)=>sum+item.qty,0);
+
+  const win =
+    window.open("","_blank","width=1400,height=1000");
+
+  if(!win){
+
+    showToast("يرجى السماح بالنوافذ المنبثقة للطباعة");
+
+    return;
+  }
+
+  win.document.write(`
+
+<!DOCTYPE html>
+
+<html
+  lang="ar"
+  dir="rtl"
+>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+  ${escapeHTML(projectName)} — MOTIVITY Proposal
+</title>
+
+<style>
+
+@page{
+  size:A4 landscape;
+  margin:8mm;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:white;
+  color:#111827;
+  font-family:Arial,"Tahoma",sans-serif;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+
+.page{
+  width:100%;
+}
+
+.header{
+  border-bottom:3px solid #e60012;
+  padding-bottom:10px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.brand{
+  color:#e60012;
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.subtitle{
+  color:#526273;
+  font-size:9px;
+  margin-top:2px;
+}
+
+.title{
+  text-align:left;
+  font-size:20px;
+  font-weight:800;
+  color:#111827;
+}
+
+.meta{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-bottom:12px;
+}
+
+.meta-box{
+  border:1px solid #d6dee7;
+  border-radius:6px;
+  padding:7px 9px;
+}
+
+.meta-label{
+  color:#64748b;
+  font-size:8px;
+}
+
+.meta-value{
+  font-weight:700;
+  font-size:10px;
+  margin-top:2px;
+}
+
+.section-title{
+  background:#0b111b;
+  color:white;
+  padding:7px 10px;
+  font-size:10px;
+  font-weight:800;
+  border-radius:5px;
+  margin:10px 0 7px;
+}
+
+.architecture{
+  border:1px solid #d6dee7;
+  border-radius:7px;
+  padding:6px;
+  page-break-inside:avoid;
+}
+
+.architecture svg{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:5px;
+}
+
+th{
+  background:#111827;
+  color:white;
+  padding:6px;
+  font-size:8px;
+  border:1px solid #1f2937;
+}
+
+td{
+  padding:5px 6px;
+  font-size:8px;
+  border:1px solid #d6dee7;
+  vertical-align:top;
+}
+
+tr{
+  page-break-inside:avoid;
+}
+
+.summary{
+  margin-top:7px;
+  display:flex;
+  justify-content:flex-start;
+  gap:35px;
+  font-size:9px;
+  font-weight:700;
+}
+
+.notes{
+  border:1px solid #d6dee7;
+  border-radius:6px;
+  padding:9px;
+  font-size:9px;
+  line-height:1.7;
+  margin-top:9px;
+  white-space:pre-wrap;
+}
+
+.footer{
+  border-top:1px solid #d6dee7;
+  margin-top:12px;
+  padding-top:6px;
+  display:flex;
+  justify-content:space-between;
+  color:#718096;
+  font-size:7px;
+}
+
+@media print{
+
+  .no-print{
+    display:none;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="header">
+
+    <div>
+
+      <div class="brand">
+        MOTIVITY
+      </div>
+
+      <div class="subtitle">
+        ENGINEERING AV SUITE • PROFESSIONAL AUDIO • VIDEO • CONTROL • NETWORK
+      </div>
+
+    </div>
+
+    <div>
+
+      <div class="title">
+        SYSTEM DESIGN & BOQ
+      </div>
+
+      <div style="
+        color:#64748b;
+        font-size:8px;
+        margin-top:3px;
+        text-align:left;
+      ">
+        Preliminary Engineering Proposal
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-box">
+      <div class="meta-label">Project</div>
+      <div class="meta-value">
+        ${escapeHTML(projectName)}
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-label">Type</div>
+      <div class="meta-value">
+        ${escapeHTML(type)}
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-label">Audience</div>
+      <div class="meta-value">
+        ${escapeHTML(people)}
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-label">Room</div>
+      <div class="meta-value">
+        ${escapeHTML(length)} × ${escapeHTML(width)} × ${escapeHTML(height)} m
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-label">BOQ</div>
+      <div class="meta-value">
+        ${boq.length} Items / ${totalUnits} Units
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-title">
+    SYSTEM ARCHITECTURE / الرسم المعماري للنظام
+  </div>
+
+  <div class="architecture">
+    ${svg}
+  </div>
+
+  <div class="section-title">
+    BILL OF QUANTITIES / جدول الكميات
+  </div>
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>#</th>
+        <th>Product</th>
+        <th>Series</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Qty</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      ${
+        boqRows ||
+        `
+          <tr>
+            <td colspan="6" style="text-align:center">
+              No products selected.
+            </td>
+          </tr>
+        `
+      }
+
+    </tbody>
+
+  </table>
+
+  <div class="summary">
+
+    <div>
+      Total BOQ Items:
+      ${boq.length}
+    </div>
+
+    <div>
+      Total Units:
+      ${totalUnits}
+    </div>
+
+  </div>
+
+  <div class="section-title">
+    ENGINEERING NOTES / الملاحظات الهندسية
+  </div>
+
+  <div class="notes">
+    ${escapeHTML(notes || "No additional notes.")}
+  </div>
+
+  <div class="footer">
+
+    <div>
+      MOTIVITY Engineering Suite
+    </div>
+
+    <div>
+      Preliminary design — verify final dimensions, coverage, cabling,
+      structural loads, power requirements and site conditions before installation.
+    </div>
+
+    <div>
+      ${new Date().toLocaleDateString("en-GB")}
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+window.addEventListener("load",function(){
+
+  setTimeout(function(){
+
+    window.print();
+
+  },700);
+
+});
+
+<\/script>
+
+</body>
+
+</html>
+
+  `);
+
+  win.document.close();
+
+}
+
+/* =========================
+   INITIALIZATION
+========================= */
+
+function initialize(){
+
+  initProductCategories();
+
+  document.getElementById("statProducts").textContent =
+    PRODUCTS.length;
+
+  renderProducts();
+  renderBOQ();
+  renderCompare();
+  renderArchitecture();
+  renderRecommendations();
+
+}
+
+initialize();
+
+</script>
+
+</body>
+</html>
